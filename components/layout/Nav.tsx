@@ -1,0 +1,324 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const links = [
+  { href: "/methodology", label: "Methodology" },
+  { href: "/work", label: "Work" },
+  { href: "/playbook", label: "Playbook" },
+  { href: "/contact", label: "Contact" },
+];
+
+export default function Nav() {
+  const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [dark, setDark] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const lastY = useRef(0);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 20);
+      setHidden(y > lastY.current && y > 80);
+      lastY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  const toggleTheme = () => {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.setAttribute(
+      "data-theme",
+      next ? "dark" : "light",
+    );
+  };
+
+  return (
+    <>
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "64px",
+          zIndex: 1000,
+          transform:
+            hidden && !menuOpen ? "translateY(-100%)" : "translateY(0)",
+          transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1)",
+          background: scrolled || menuOpen ? "var(--surface)" : "transparent",
+          backdropFilter: scrolled || menuOpen ? "blur(16px)" : "none",
+          borderBottom:
+            scrolled || menuOpen
+              ? "1px solid var(--border)"
+              : "1px solid transparent",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "1440px",
+            margin: "0 auto",
+            padding: "0 24px",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Link
+            href="/"
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "20px",
+              fontWeight: 600,
+              color: "var(--text)",
+              textDecoration: "none",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              zIndex: 1001,
+            }}
+          >
+            Thryve
+          </Link>
+
+          {/* Desktop center island */}
+          <div
+            className="nav-desktop nav-desktop-island"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "2px",
+              background: "transparent",
+              backdropFilter: "blur(20px)",
+              border: "1px solid var(--border)",
+              borderRadius: "100px",
+              padding: "5px",
+              transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
+            }}
+          >
+            {links.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "13px",
+                    fontWeight: 500,
+                    color: isActive ? "var(--bg)" : "var(--text)",
+                    textDecoration: "none",
+                    padding: "8px 18px",
+                    borderRadius: "100px",
+                    background: isActive ? "var(--text)" : "transparent",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Desktop right */}
+          <div
+            className="nav-desktop nav-desktop-right" style={{ display: "flex", alignItems: "center", gap: "10px" }}
+          >
+            <button
+              onClick={toggleTheme}
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                background: "var(--border)",
+                border: "1px solid var(--border)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                fontSize: "16px",
+              }}
+            >
+              {dark ? "☀️" : "🌙"}
+            </button>
+            <Link
+              href="/contact"
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "13px",
+                fontWeight: 500,
+                color: "var(--bg)",
+                background: "var(--text)",
+                padding: "10px 22px",
+                borderRadius: "100px",
+                textDecoration: "none",
+              }}
+            >
+              Book Audit
+            </Link>
+          </div>
+
+          {/* Mobile right */}
+          <div
+            className="nav-mobile nav-mobile-controls"
+            style={{ display: "flex", alignItems: "center", gap: "12px" }}
+          >
+            <button
+              onClick={toggleTheme}
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "50%",
+                background: "var(--border)",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "14px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {dark ? "☀️" : "🌙"}
+            </button>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "8px",
+                background: "transparent",
+                border: "1px solid var(--border)",
+                cursor: "pointer",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "5px",
+                padding: "8px",
+              }}
+            >
+              <span
+                style={{
+                  width: "18px",
+                  height: "1.5px",
+                  background: "var(--text)",
+                  borderRadius: "1px",
+                  transform: menuOpen
+                    ? "rotate(45deg) translate(4px, 4px)"
+                    : "none",
+                  transition: "transform 0.3s ease",
+                  display: "block",
+                }}
+              />
+              <span
+                style={{
+                  width: "18px",
+                  height: "1.5px",
+                  background: "var(--text)",
+                  borderRadius: "1px",
+                  opacity: menuOpen ? 0 : 1,
+                  transition: "opacity 0.3s ease",
+                  display: "block",
+                }}
+              />
+              <span
+                style={{
+                  width: "18px",
+                  height: "1.5px",
+                  background: "var(--text)",
+                  borderRadius: "1px",
+                  transform: menuOpen
+                    ? "rotate(-45deg) translate(4px, -4px)"
+                    : "none",
+                  transition: "transform 0.3s ease",
+                  display: "block",
+                }}
+              />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile menu */}
+      <div
+        className="nav-mobile"
+        style={{
+          position: "fixed",
+          top: "64px",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "var(--bg)",
+          zIndex: 999,
+          transform: menuOpen ? "translateX(0)" : "translateX(100%)",
+          transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1)",
+          display: "flex",
+          flexDirection: "column",
+          padding: "40px 32px",
+        }}
+      >
+        {links.map((link, i) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "clamp(32px, 8vw, 48px)",
+              fontWeight: 500,
+              letterSpacing: "-0.02em",
+              color: pathname === link.href ? "var(--purple)" : "var(--text)",
+              textDecoration: "none",
+              padding: "16px 0",
+              borderBottom: "1px solid var(--border)",
+              display: "block",
+              transform: menuOpen ? "translateY(0)" : "translateY(20px)",
+              opacity: menuOpen ? 1 : 0,
+              transition: `all 0.4s cubic-bezier(0.16,1,0.3,1) ${i * 0.06}s`,
+            }}
+          >
+            {link.label}
+          </Link>
+        ))}
+        <Link
+          href="/contact"
+          style={{
+            marginTop: "32px",
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "15px",
+            fontWeight: 500,
+            color: "#FAFAFA",
+            background: "var(--purple)",
+            padding: "16px 32px",
+            borderRadius: "100px",
+            textDecoration: "none",
+            display: "inline-flex",
+            width: "fit-content",
+            transform: menuOpen ? "translateY(0)" : "translateY(20px)",
+            opacity: menuOpen ? 1 : 0,
+            transition: "all 0.4s cubic-bezier(0.16,1,0.3,1) 0.24s",
+          }}
+        >
+          Book Free Audit
+        </Link>
+      </div>
+
+      <style>{`
+        .nav-mobile { display: none !important; }
+        .nav-desktop { display: flex !important; }
+        @media (max-width: 768px) {
+          .nav-mobile { display: flex !important; }
+          .nav-desktop { display: none !important; }
+        }
+      `}</style>
+    </>
+  );
+}

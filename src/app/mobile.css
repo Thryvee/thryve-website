@@ -1,0 +1,306 @@
+/* ============================================
+   MOBILE ONLY — max-width: 768px
+   Desktop styles are NEVER touched here.
+   All rules live inside @media blocks only.
+   ============================================ */
+
+@media (max-width: 768px) {
+
+  /* ── HERO ─────────────────────────────────── */
+  .hero-section {
+    padding: 100px 24px 260px !important;
+    min-height: 100svh !important;
+  }
+  .hero-headline {
+    font-size: clamp(32px, 9vw, 48px) !important;
+    line-height: 1.15 !important;
+  }
+  .hero-sub {
+    font-size: clamp(16px, 5vw, 22px) !important;
+  }
+  .hero-body {
+    font-size: 13px !important;
+    max-width: 100% !important;
+  }
+  .hero-cta-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+  .hero-cta-row a {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* ── GLOBAL SECTION PADDING ───────────────── */
+  .section-pad {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  /* ── SOCIAL PROOF / MARQUEE ───────────────── */
+  .social-proof-section {
+    padding: 40px 24px !important;
+  }
+
+  /* ── PILLARS SCROLL ───────────────────────── */
+  .pillars-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .pillar-card {
+    min-height: 280px !important;
+  }
+  .pillars-header {
+    padding: 60px 24px 32px !important;
+  }
+  .pillars-headline {
+    font-size: clamp(32px, 9vw, 52px) !important;
+  }
+
+  /* ── STATEMENT ────────────────────────────── */
+  .statement-section {
+    padding: 60px 24px !important;
+  }
+  .statement-text {
+    font-size: clamp(24px, 7vw, 40px) !important;
+    line-height: 1.3 !important;
+  }
+
+  /* ── STATS COMPARISON ─────────────────────── */
+  .stats-section {
+    padding: 60px 24px !important;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* ── PROCESS TIMELINE ─────────────────────── */
+  .timeline-section {
+    padding: 60px 24px !important;
+  }
+  .timeline-headline {
+    font-size: clamp(32px, 9vw, 52px) !important;
+  }
+  .timeline-cards-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* ── RESULTS ──────────────────────────────── */
+  .results-section {
+    padding: 60px 24px !important;
+  }
+  .results-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  .results-headline {
+    font-size: clamp(28px, 8vw, 48px) !important;
+  }
+  .result-card {
+    padding: 24px !important;
+  }
+  .result-metrics-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* ── TESTIMONIAL TICKER ───────────────────── */
+  .testimonial-section {
+    padding: 40px 0 !important;
+  }
+
+  /* ── ABOUT ────────────────────────────────── */
+  .about-section {
+    padding: 60px 24px !important;
+  }
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+  .about-headline {
+    font-size: clamp(28px, 8vw, 44px) !important;
+  }
+  .about-right-card {
+    min-height: auto !important;
+    padding: 32px 24px !important;
+  }
+  .about-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* ── FAQ ──────────────────────────────────── */
+  .faq-section {
+    padding: 60px 24px !important;
+  }
+  .faq-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+  .faq-headline {
+    font-size: clamp(28px, 8vw, 44px) !important;
+    margin-bottom: 32px !important;
+  }
+
+  /* ── FOOTER CTA ───────────────────────────── */
+  .footer-cta-section {
+    padding: 60px 24px !important;
+  }
+  .footer-cta-headline {
+    font-size: clamp(32px, 9vw, 52px) !important;
+  }
+
+  /* ── FOOTER ───────────────────────────────── */
+  .footer-inner {
+    flex-direction: column !important;
+    gap: 40px !important;
+    padding-bottom: 40px !important;
+  }
+  .footer-headline {
+    font-size: clamp(32px, 9vw, 52px) !important;
+  }
+  .footer-links-row {
+    flex-direction: column !important;
+    gap: 32px !important;
+  }
+  .footer-bottom {
+    flex-direction: column !important;
+    gap: 8px !important;
+    align-items: flex-start !important;
+  }
+
+  /* ── METHODOLOGY PAGE ─────────────────────── */
+  .method-hero {
+    padding: 80px 24px 60px !important;
+  }
+  .method-headline {
+    font-size: clamp(32px, 9vw, 56px) !important;
+  }
+  .method-sticky-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .method-sticky-left {
+    position: relative !important;
+    top: auto !important;
+  }
+  .guarantee-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .comparison-header-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .comparison-row {
+    grid-template-columns: 1fr !important;
+  }
+  .comparison-col-headers {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .comparison-label {
+    border-bottom: 1px solid var(--border) !important;
+    padding-bottom: 8px !important;
+    font-weight: 700 !important;
+  }
+
+  /* ── WORK PAGE ────────────────────────────── */
+  .work-hero {
+    padding: 80px 24px 60px !important;
+  }
+  .case-studies-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .case-headline {
+    font-size: clamp(28px, 8vw, 48px) !important;
+  }
+  .pinterest-grid-inner {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    padding: 0 16px !important;
+  }
+
+  /* ── PLAYBOOK PAGE ────────────────────────── */
+  .playbook-hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+    padding: 80px 24px 60px !important;
+  }
+  .playbook-mockup {
+    display: none !important;
+  }
+  .playbook-chapter-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+    padding: 0 24px !important;
+  }
+  .playbook-chapter-right {
+    display: none !important;
+  }
+  .playbook-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .playbook-card-metrics {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* ── CONTACT PAGE ─────────────────────────── */
+  .contact-hero {
+    padding: 80px 24px 40px !important;
+    min-height: auto !important;
+  }
+  .contact-headline {
+    font-size: clamp(36px, 10vw, 64px) !important;
+  }
+  .contact-form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+    padding-bottom: 60px !important;
+  }
+  .contact-faq-section {
+    padding: 40px 24px !important;
+  }
+  .contact-faq-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+  .form-fields-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* ── TYPOGRAPHY GLOBAL ────────────────────── */
+  .display-headline {
+    font-size: clamp(32px, 9vw, 56px) !important;
+    line-height: 1.1 !important;
+  }
+  .section-label {
+    font-size: 10px !important;
+  }
+
+  /* ── HIDE NON-ESSENTIAL ON MOBILE ─────────── */
+  .scroll-progress-bar {
+    display: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .result-metrics-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .about-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .playbook-card-metrics {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .pinterest-grid-inner {
+    grid-template-columns: 1fr !important;
+  }
+}
