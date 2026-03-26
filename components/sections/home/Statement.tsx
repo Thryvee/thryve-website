@@ -1,16 +1,16 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Statement() {
+  const ref = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768);
     check();
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
-
-  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -39,15 +39,15 @@ export default function Statement() {
   const words = text.split(" ");
 
   return (
-    <section style={{ padding: "140px 48px", background: "var(--bg)" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+    <section style={{ padding: isMobile ? "56px 24px 48px" : "140px 48px", background: "var(--bg)" }}>
+      <div style={{ maxWidth: isMobile ? "100%" : "1200px", margin: "0 auto" }}>
         <div ref={ref}>
           <h2
             style={{
               fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "clamp(40px, 6vw, 96px)",
+              fontSize: isMobile ? "clamp(30px, 8vw, 44px)" : "clamp(40px, 6vw, 96px)",
               fontWeight: 500,
-              lineHeight: 1.05,
+              lineHeight: isMobile ? 1.2 : 1.05,
               letterSpacing: "-0.025em",
               color: "var(--text)",
             }}
@@ -74,29 +74,30 @@ export default function Statement() {
 
         <div
           style={{
-            marginTop: "48px",
+            marginTop: isMobile ? "24px" : "48px",
             display: "flex",
             alignItems: "center",
-            gap: "24px",
+            gap: isMobile ? "14px" : "24px",
           }}
         >
           <div
             style={{
-              width: "48px",
+              width: isMobile ? "28px" : "48px",
               height: "1px",
               background: "var(--purple)",
+              flexShrink: 0,
             }}
           />
           <p
             style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: "15px",
+              fontSize: isMobile ? "13px" : "15px",
               color: "var(--text-secondary)",
               letterSpacing: "0.01em",
+              lineHeight: 1.7,
             }}
           >
-            Acquisition. Conversion. Retention. Scaling. One system. Built in
-            sequence.
+            Acquisition. Conversion. Retention. Scaling. One system. Built in sequence.
           </p>
         </div>
       </div>

@@ -18,17 +18,38 @@ const chapters = [
 ];
 
 function ChapterScroll() {
-  const [isMobileChapter, setIsMobileChapter] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
+  const [activeChapter, setActiveChapter] = useState(0);
+  const [chapterVisible, setChapterVisible] = useState(true);
+
   useEffect(() => {
-    const check = () => setIsMobileChapter(window.innerWidth <= 768);
+    const check = () => setIsMobile(window.innerWidth <= 768);
     check();
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
+
+  // Auto-cycle on mobile
+  useEffect(() => {
+    if (isMobile !== true) return;
+    let pending: ReturnType<typeof setTimeout> | null = null;
+    const id = setInterval(() => {
+      setChapterVisible(false);
+      pending = setTimeout(() => {
+        setActiveChapter(i => (i + 1) % chapters.length);
+        setChapterVisible(true);
+        pending = null;
+      }, 300);
+    }, 3000);
+    return () => { clearInterval(id); if (pending) clearTimeout(pending); };
+  }, [isMobile]);
+
+  // Desktop scroll state
   const sectionRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    if (isMobile) return;
     const onScroll = () => {
       const el = sectionRef.current;
       if (!el) return;
@@ -39,14 +60,55 @@ function ChapterScroll() {
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [isMobile]);
 
+  if (isMobile === null) return null;
+
+  // ── Mobile ────────────────────────────────────────────────────────────────
+  if (isMobile) {
+    const active = chapters[activeChapter];
+    return (
+      <section style={{ background: 'var(--bg)', padding: '52px 24px 48px', position: 'relative', overflow: 'hidden' }}>
+        {/* Chapter dots */}
+        <div style={{ display: 'flex', gap: '6px', marginBottom: '32px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          {chapters.map((ch, i) => (
+            <div key={i} style={{ width: i === activeChapter ? '20px' : '6px', height: '6px', borderRadius: '3px', background: i === activeChapter ? ch.accent : 'var(--border-strong)', transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)' }} />
+          ))}
+        </div>
+
+        {/* Chapter content */}
+        <div style={{ transition: 'opacity 0.3s ease', opacity: chapterVisible ? 1 : 0, minHeight: '220px' }}>
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '18px', flexWrap: 'wrap' }}>
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: active.accent, background: active.accent + '12', border: '1px solid ' + active.accent + '28', padding: '4px 12px', borderRadius: '100px' }}>
+              {active.pb}
+            </span>
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', color: 'rgba(255,255,255,0.3)' }}>Chapter {active.number}</span>
+          </div>
+
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(32px, 9vw, 52px)', fontWeight: 500, letterSpacing: '-0.025em', lineHeight: 1.08, color: 'var(--text)', marginBottom: '16px' }}>
+            {active.title}
+          </h2>
+
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+            {active.body}
+          </p>
+        </div>
+
+        {/* Counter */}
+        <div style={{ marginTop: '24px', fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(255,255,255,0.25)', textAlign: 'center' as const, letterSpacing: '0.08em' }}>
+          {activeChapter + 1} / {chapters.length}
+        </div>
+      </section>
+    );
+  }
+
+  // ── Desktop ────────────────────────────────────────────────────────────────
   const activeIndex = Math.min(Math.floor(progress * chapters.length), chapters.length - 1);
   const active = chapters[activeIndex];
 
   return (
     <div ref={sectionRef} style={{ height: `${chapters.length * 100}vh`, position: 'relative' }}>
-      <div style={{ position: isMobileChapter ? 'relative' : 'sticky', top: 0, height: isMobileChapter ? 'auto' : '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+      <div style={{ position: 'sticky', top: 0, height: '100vh', background: 'var(--bg)', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
 
         {/* Progress line */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'var(--border)' }}>
@@ -105,7 +167,15 @@ function ChapterScroll() {
 }
 
 export default function Playbook() {
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const [wordVisible, setWordVisible] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   useEffect(() => {
     setTimeout(() => setWordVisible(true), 100);
@@ -114,6 +184,73 @@ export default function Playbook() {
   const words = "Two playbooks. Zero fluff.".split(' ');
   const words2 = "Take the system.".split(' ');
 
+  // ── Mobile Hero ────────────────────────────────────────────────────────────
+  if (isMobile === true) {
+    return (
+      <>
+        <Cursor />
+        <ScrollProgress />
+        <Nav />
+        <main>
+
+          {/* Mobile hero */}
+          <section style={{ padding: '96px 24px 48px', background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: '-60px', left: '-40px', width: '280px', height: '280px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(123,47,190,0.09) 0%, transparent 70%)', pointerEvents: 'none' }} />
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--purple)', display: 'block', marginBottom: '18px' }}>
+              Free Resources
+            </span>
+            <div style={{ marginBottom: '20px' }}>
+              {words.map((word, i) => (
+                <span key={i} style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(40px, 11vw, 60px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.08, color: 'var(--text)', display: 'inline-block', marginRight: '0.2em', transform: wordVisible ? 'translateY(0)' : 'translateY(110%)', opacity: wordVisible ? 1 : 0, transition: `all 0.7s cubic-bezier(0.16,1,0.3,1) ${0.2 + i * 0.08}s` }}>
+                  {word}
+                </span>
+              ))}
+              {words2.map((word, i) => (
+                <span key={i} style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(40px, 11vw, 60px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.08, color: 'var(--purple)', fontStyle: 'italic', display: 'inline-block', marginRight: '0.2em', transform: wordVisible ? 'translateY(0)' : 'translateY(110%)', opacity: wordVisible ? 1 : 0, transition: `all 0.7s cubic-bezier(0.16,1,0.3,1) ${0.5 + i * 0.08}s` }}>
+                  {word}
+                </span>
+              ))}
+            </div>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.75, marginBottom: '32px' }}>
+              Everything we use with clients — condensed into frameworks you can apply immediately. Free, forever. No fluff.
+            </p>
+            {/* Stats row */}
+            <div style={{ display: 'flex', gap: '28px', flexWrap: 'wrap' as const }}>
+              {[['860+', 'Downloads'], ['28', 'Frameworks'], ['90+', 'Pages total']].map(([val, label], i) => (
+                <div key={i}>
+                  <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '32px', fontWeight: 300, letterSpacing: '-0.03em', color: 'var(--text)', lineHeight: 1, marginBottom: '4px' }}>{val}</p>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', color: 'var(--text-tertiary)', letterSpacing: '0.06em', textTransform: 'uppercase' as const }}>{label}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Chapters carousel */}
+          <ChapterScroll />
+
+          {/* Playbook cards */}
+          <PlaybookCards />
+
+          {/* Bottom CTA */}
+          <section style={{ padding: '56px 24px 64px', background: 'var(--bg-secondary)', borderTop: '1px solid var(--border)' }}>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(32px, 9vw, 48px)', fontWeight: 500, letterSpacing: '-0.025em', lineHeight: 1.1, color: 'var(--text)', marginBottom: '12px' }}>
+              Want us to build it<br />
+              <span style={{ color: 'var(--purple)', fontStyle: 'italic' }}>for you instead?</span>
+            </h2>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: 'var(--text-tertiary)', lineHeight: 1.7, marginBottom: '28px' }}>
+              The playbooks show you what to do. Thryve does it with you — and hands you a system that runs without us.
+            </p>
+            <a href='/contact' style={{ display: 'block', textAlign: 'center' as const, fontFamily: "'DM Sans', sans-serif", fontSize: '14px', fontWeight: 500, color: '#FAFAFA', background: 'var(--purple)', padding: '16px 28px', borderRadius: '100px', textDecoration: 'none', border: '1.5px solid var(--purple)' }}>
+              Book Free Audit →
+            </a>
+          </section>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  // ── Desktop ────────────────────────────────────────────────────────────────
   return (
     <>
       <Cursor />

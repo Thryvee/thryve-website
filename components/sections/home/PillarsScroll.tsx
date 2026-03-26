@@ -32,6 +32,59 @@ const pillars = [
   },
 ];
 
+type Pillar = (typeof pillars)[number];
+
+function MobilePillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 80 + index * 100);
+    return () => clearTimeout(t);
+  }, [index]);
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        background: pillar.bg,
+        borderRadius: '20px',
+        padding: '28px 24px 24px',
+        border: `1px solid ${pillar.accent}28`,
+        boxShadow: '0 16px 48px rgba(0,0,0,0.5), 0 4px 16px rgba(0,0,0,0.3)',
+        position: 'relative',
+        overflow: 'hidden',
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0) scale(1)' : 'translateY(28px) scale(0.97)',
+        transition: `opacity 0.65s cubic-bezier(0.16,1,0.3,1) ${index * 80}ms, transform 0.65s cubic-bezier(0.16,1,0.3,1) ${index * 80}ms`,
+      }}
+    >
+      {/* Top accent line */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(90deg, transparent, ${pillar.accent}88, transparent)` }} />
+      {/* Watermark number */}
+      <div style={{ position: 'absolute', right: '-4px', bottom: '-16px', fontFamily: "'Cormorant Garamond', serif", fontSize: '96px', fontWeight: 700, color: 'rgba(255,255,255,0.05)', lineHeight: 1, userSelect: 'none', pointerEvents: 'none' }}>
+        {pillar.number}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px', position: 'relative', zIndex: 1 }}>
+        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase' as const, color: pillar.accent }}>
+          {pillar.number} — {pillar.name}
+        </span>
+        <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '28px', fontWeight: 300, color: pillar.accent, letterSpacing: '-0.03em', lineHeight: 1 }}>{pillar.stat}</span>
+      </div>
+      <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(22px, 6vw, 30px)', fontWeight: 500, color: '#FAFAFA', lineHeight: 1.15, marginBottom: '10px', whiteSpace: 'pre-line', letterSpacing: '-0.02em', position: 'relative', zIndex: 1 }}>
+        {pillar.headline}
+      </h3>
+      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.75, marginBottom: '18px', position: 'relative', zIndex: 1 }}>
+        {pillar.body}
+      </p>
+      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '7px 14px', background: 'rgba(255,255,255,0.06)', borderRadius: '100px', border: `1px solid ${pillar.accent}33`, position: 'relative', zIndex: 1 }}>
+        <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: pillar.accent, display: 'inline-block' }} />
+        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 500, color: 'rgba(255,255,255,0.6)' }}>{pillar.metric}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function PillarsScroll() {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -60,10 +113,29 @@ export default function PillarsScroll() {
 
   const active = Math.min(Math.floor(progress * pillars.length), pillars.length - 1);
 
+  // ── Mobile branch ──────────────────────────────────────────────────────────
+  if (isMobile) {
+    return (
+      <div style={{ background: '#0A0A0A', padding: '56px 0 48px' }}>
+        <div style={{ padding: '0 24px', marginBottom: '36px' }}>
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.35)', display: 'block', marginBottom: '10px' }}>The System</span>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(40px, 11vw, 54px)', fontWeight: 500, letterSpacing: '-0.03em', color: '#FAFAFA', lineHeight: 1.05 }}>Four pillars.</h2>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(18px, 5vw, 22px)', fontWeight: 400, fontStyle: 'italic', color: 'rgba(255,255,255,0.28)', marginTop: '8px', letterSpacing: '-0.01em' }}>One sequence. No skipping.</p>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '0 24px' }}>
+          {pillars.map((p, i) => (
+            <MobilePillarCard key={i} pillar={p} index={i} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // ── Desktop (unchanged) ───────────────────────────────────────────────────
   return (
-    <div ref={sectionRef} style={{ height: isMobile ? 'auto' : `${pillars.length * 120}vh`, position: 'relative' }}>
+    <div ref={sectionRef} style={{ height: `${pillars.length * 120}vh`, position: 'relative' }}>
       <div style={{
-        position: isMobile ? 'relative' : 'sticky', top: 0, height: isMobile ? 'auto' : '100vh',
+        position: 'sticky', top: 0, height: '100vh',
         overflow: 'hidden',
         background: pillars[active].bg,
         transition: 'background 1.2s cubic-bezier(0.16,1,0.3,1)',
@@ -86,7 +158,7 @@ export default function PillarsScroll() {
           maxWidth: '1200px', margin: '0 auto', padding: '0 clamp(20px, 5vw, 80px)',
           height: '100%', display: 'flex', alignItems: 'center',
         }}>
-          <div style={{ width: '100%', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '28px' : '80px', alignItems: 'center' }}>
+          <div style={{ width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
 
             {/* Left */}
             <div>

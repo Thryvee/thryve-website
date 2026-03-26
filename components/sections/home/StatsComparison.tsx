@@ -93,6 +93,23 @@ export default function StatsComparison() {
     return () => window.removeEventListener('resize', check);
   }, []);
 
+  // Mobile carousel state (hooks must be unconditional)
+  const [activeCard, setActiveCard] = useState(0);
+  const [cardVisible, setCardVisible] = useState(true);
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const id = setInterval(() => {
+      setCardVisible(false);
+      const t = setTimeout(() => {
+        setActiveCard(i => (i + 1) % results.length);
+        setCardVisible(true);
+      }, 350);
+      return () => clearTimeout(t);
+    }, 2200);
+    return () => clearInterval(id);
+  }, [isMobile]);
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
 
@@ -113,6 +130,69 @@ export default function StatsComparison() {
   const cardW = 260;
   const cardGap = 16;
   const total = results.length;
+
+  if (isMobile) {
+    const r = results[activeCard];
+    return (
+      <div style={{ background: "#0A0A0A", padding: "56px 24px 48px" }}>
+        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "10px", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" as const, color: "var(--purple)", display: "block", marginBottom: "12px" }}>
+          The Difference
+        </span>
+        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px, 9vw, 48px)", fontWeight: 500, letterSpacing: "-0.025em", lineHeight: 1.05, color: "#FAFAFA", marginBottom: "8px" }}>
+          Before Thryve.{" "}
+          <span style={{ color: "var(--purple)", fontStyle: "italic" }}>After Thryve.</span>
+        </h2>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.4)", lineHeight: 1.7, marginBottom: "36px" }}>
+          Real numbers from real engagements. No estimates, no projections.
+        </p>
+
+        {/* Single card carousel */}
+        <div style={{
+          background: "rgba(255,255,255,0.04)",
+          borderRadius: "20px",
+          padding: "32px 28px",
+          border: "1px solid rgba(255,255,255,0.08)",
+          boxShadow: "0 24px 60px rgba(0,0,0,0.4)",
+          opacity: cardVisible ? 1 : 0,
+          transform: cardVisible ? "translateX(0) scale(1)" : "translateX(20px) scale(0.98)",
+          transition: "opacity 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1)",
+        }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "9px", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" as const, color: "rgba(250,250,250,0.35)", marginBottom: "20px" }}>
+            {r.brand} · {r.metric}
+          </p>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11px", color: "rgba(250,250,250,0.25)", marginBottom: "20px", letterSpacing: "0.02em" }}>{r.label}</p>
+          <div style={{ display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "16px" }}>
+            <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "18px", color: "rgba(250,250,250,0.2)", textDecoration: "line-through" }}>{r.before}</span>
+            <span style={{ fontSize: "11px", color: "rgba(250,250,250,0.15)" }}>→</span>
+          </div>
+          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(52px, 14vw, 72px)", fontWeight: 500, color: "#FAFAFA", lineHeight: 1, letterSpacing: "-0.03em", display: "block", marginBottom: "20px" }}>
+            {r.after}
+          </span>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(123,47,190,0.2)", border: "1px solid rgba(123,47,190,0.35)", borderRadius: "100px", padding: "6px 14px" }}>
+            <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "var(--purple)", display: "inline-block" }} />
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13px", fontWeight: 700, color: "var(--purple)" }}>{r.improvement}</span>
+          </div>
+        </div>
+
+        {/* Progress dots */}
+        <div style={{ display: "flex", gap: "6px", justifyContent: "center", marginTop: "20px" }}>
+          {results.map((_, i) => (
+            <div key={i} style={{
+              width: i === activeCard ? "20px" : "5px",
+              height: "5px", borderRadius: "3px",
+              background: i === activeCard ? "var(--purple)" : "rgba(255,255,255,0.15)",
+              transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
+            }} />
+          ))}
+        </div>
+
+        {/* Counter */}
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.2)", textAlign: "center" as const, marginTop: "10px" }}>
+          {activeCard + 1} / {results.length}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div ref={sectionRef} style={{ height: "500vh", position: "relative" }}>

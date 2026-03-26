@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 const faqs = [
   {
     q: "How is Thryve different from a regular marketing agency?",
@@ -7,7 +7,7 @@ const faqs = [
   },
   {
     q: "What does the engagement actually look like?",
-    a: "It starts with a free audit call where we diagnose your biggest leak. If we're a fit, we run a a pilot month to validate the approach, then move into a 3-month retainer. Total engagement is a full engagement. Every deliverable is documented in your Notion client dashboard.",
+    a: "It starts with a free audit call where we diagnose your biggest leak. If we're a fit, we run a pilot month to validate the approach, then move into a 3-month retainer. Every deliverable is documented in your Notion client dashboard.",
   },
   {
     q: "What business models do you work with?",
@@ -28,14 +28,6 @@ const faqs = [
 ];
 
 export default function FAQ() {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 768);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
   const [open, setOpen] = useState<number | null>(null);
 
   return (

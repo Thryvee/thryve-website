@@ -4,7 +4,7 @@ const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#
 
 export function useScramble(text: string, trigger: boolean, speed = 30) {
   const [display, setDisplay] = useState(text);
-  const frameRef = useRef<NodeJS.Timeout>();
+  const frameRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const iterRef = useRef(0);
 
   useEffect(() => {

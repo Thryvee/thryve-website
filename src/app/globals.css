@@ -38,7 +38,12 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  cursor: none !important;
+}
+
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
 }
 
 html {
@@ -172,10 +177,10 @@ h4 {
   }
 }
 .marquee-l {
-  animation: marquee-l 20s linear infinite;
+  animation: marquee-l 30s linear infinite;
 }
 .marquee-r {
-  animation: marquee-r 20s linear infinite;
+  animation: marquee-r 36s linear infinite;
 }
 
 .btn {
@@ -310,60 +315,31 @@ textarea::placeholder {
 @media (max-width: 768px) {
   .container,
   .container-wide {
-    padding: 0 24px;
-  }
-  .section-pad {
-    padding: 80px 0;
-  }
-  *,
-  *::before,
-  *::after {
-    cursor: auto !important;
-  }
-  .cursor-dot,
-  .cursor-ring {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* ── Mobile Responsive ─────────────────────────────────── */
-@media (max-width: 768px) {
-  body {
-    overflow-x: hidden;
-    cursor: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    cursor: auto !important;
-  }
-  .cursor-dot,
-  .cursor-ring {
-    display: none;
-  }
-  .container,
-  .container-wide {
     padding: 0 20px;
   }
   .section-pad {
     padding: 60px 0;
+  }
+  body {
+    overflow-x: hidden;
+    cursor: auto;
+  }
+  main {
+    overflow-x: hidden;
   }
   h1,
   h2,
   h3 {
     word-break: break-word;
   }
-  main {
-    overflow-x: hidden;
+  *,
+  *::before,
+  *::after {
+    cursor: auto !important;
+  }
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
   }
 }
 
@@ -374,58 +350,13 @@ textarea::placeholder {
   }
 }
 
-/* ── Mobile ────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  body {
-    overflow-x: hidden;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
-  main {
-    overflow-x: hidden;
-  }
-  h1,
-  h2,
-  h3 {
-    word-break: break-word;
-  }
-}
-
-/* ── Mobile Fixes ───────────────────────────────────────── */
-@media (max-width: 768px) {
-  /* Hide section label on mobile */
-  [style*="position: fixed"][style*="left: 24px"][style*="rotate(-90deg)"] {
-    display: none !important;
-  }
-
-  /* Hero — hide scroll cards on mobile, they break the layout */
-  [style*="bottom: 0"][style*="height"][style*="overflow: hidden"] {
-    display: none !important;
-  }
-
-  /* Hero content padding */
-  [style*="padding: '120px 0 200px'"] {
-    padding: 100px 24px 60px !important;
-  }
-
-  /* Hero badges row — stack them */
-  [style*="marginTop: '16px'"][style*="flexWrap: 'wrap'"] {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 8px !important;
-  }
-}
-
-@media (max-width: 768px) {
-  /* Section label hidden */
-  .section-label-fixed {
-    display: none !important;
-  }
-
-  /* Hero padding */
-  .hero-section {
-    padding: 100px 24px 60px !important;
-  }
-
-  /* Proof bar already fixed to 2x2 grid above */
 }
 
 /* ═══ MOBILE RESPONSIVE ═══════════════════════════════════════════════

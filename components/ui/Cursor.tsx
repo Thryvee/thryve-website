@@ -1,11 +1,13 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Cursor() {
   const dot = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
+  const [isTouch] = useState(() => typeof window !== 'undefined' && (window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window));
 
   useEffect(() => {
+    if (isTouch) return;
     const d = dot.current;
     const r = ring.current;
     if (!d || !r) return;
@@ -73,7 +75,9 @@ export default function Cursor() {
       cancelAnimationFrame(raf);
       observer.disconnect();
     };
-  }, []);
+  }, [isTouch]);
+
+  if (isTouch) return null;
 
   return (
     <>

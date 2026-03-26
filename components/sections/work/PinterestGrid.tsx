@@ -182,6 +182,59 @@ function Tile({ tile }: { tile: any }) {
   );
 }
 
+// Horizontal tile for mobile marquee strips
+function HTile({ tile }: { tile: any }) {
+  const isDark = ['#FAFAFA','#F0EEE8','#F5F4EF'].includes(tile.bg);
+  const textColor = isDark ? '#0A0A0A' : '#FAFAFA';
+  const borderColor = isDark ? 'rgba(10,10,10,0.07)' : 'rgba(255,255,255,0.07)';
+  const w = tile.type === 'mini' ? 140 : tile.type === 'quote' ? 200 : 170;
+
+  return (
+    <div style={{
+      background: tile.bg,
+      borderRadius: '12px',
+      border: `1px solid ${borderColor}`,
+      padding: tile.type === 'mini' ? '14px 16px' : '18px',
+      marginRight: '8px',
+      flexShrink: 0,
+      width: `${w}px`,
+    }}>
+      {tile.type === 'stat' && (
+        <>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '7px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase' as const, color: tile.color, marginBottom: '10px' }}>
+            {tile.metric}
+          </p>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '32px', fontWeight: 300, letterSpacing: '-0.03em', lineHeight: 1, color: textColor, marginBottom: '4px' }}>
+            {tile.value}
+          </p>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', color: tile.color, fontStyle: 'italic' }}>{tile.sub}</p>
+        </>
+      )}
+      {tile.type === 'quote' && (
+        <>
+          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', color: tile.color, opacity: 0.4, display: 'block', marginBottom: '2px' }}>"</span>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '13px', fontStyle: 'italic', color: textColor, lineHeight: 1.5 }}>
+            {tile.text}
+          </p>
+        </>
+      )}
+      {tile.type === 'mini' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '7px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase' as const, color: tile.color }}>{tile.label}</p>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', fontWeight: 500, letterSpacing: '-0.02em', color: textColor, lineHeight: 1 }}>{tile.value}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Three horizontal strips for mobile: col1+col2, col3+col4, col2+col3 — each doubled for seamless loop
+const mobileStrips = [
+  { tiles: [...col1.slice(0,12), ...col2.slice(0,12), ...col1.slice(0,12), ...col2.slice(0,12)], duration: '12s' },
+  { tiles: [...col3.slice(0,12), ...col4.slice(0,12), ...col3.slice(0,12), ...col4.slice(0,12)], duration: '16s' },
+  { tiles: [...col2.slice(0,12), ...col3.slice(0,12), ...col2.slice(0,12), ...col3.slice(0,12)], duration: '14s' },
+];
+
 export default function PinterestGrid() {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -194,6 +247,7 @@ export default function PinterestGrid() {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
+    if (isMobile) return;
     const onScroll = () => {
       const el = wrapRef.current;
       if (!el) return;
@@ -201,30 +255,53 @@ export default function PinterestGrid() {
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [isMobile]);
 
+  // ── Mobile: 3 horizontal marquee strips scrolling right-to-left ───────────
+  if (isMobile) {
+    return (
+      <div style={{ background: 'var(--bg)', padding: '40px 0 48px', overflow: 'hidden' }}>
+        <div style={{ padding: '0 24px', marginBottom: '28px' }}>
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--purple)', display: 'block', marginBottom: '8px' }}>
+            In numbers
+          </span>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px, 8vw, 38px)', fontWeight: 500, letterSpacing: '-0.025em', color: 'var(--text)', lineHeight: 1.1 }}>
+            Every metric.<br />Every engagement.
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {mobileStrips.map((strip, si) => (
+            <div key={si} style={{ overflow: 'hidden' }}>
+              <div
+                className="marquee-l"
+                style={{ display: 'flex', alignItems: 'stretch', animationDuration: strip.duration }}
+              >
+                {strip.tiles.map((tile, ti) => (
+                  <HTile key={ti} tile={tile} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // ── Desktop: 4-column vertical parallax (unchanged) ───────────────────────
   return (
     <div ref={wrapRef} className="m-pinterest-outer" style={{ height: '250vh', position: 'relative' }}>
-      <div className="m-pinterest-sticky" style={{ position: isMobile ? 'relative' : 'sticky', top: 0, height: isMobile ? 'auto' : '100vh',
-        overflow: isMobile ? 'visible' : 'hidden', background: 'var(--bg)',
-      }}>
+      <div className="m-pinterest-sticky" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: 'var(--bg)' }}>
         <div style={{
           display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '10px',
-          padding: '0 60px',
-          height: '100%',
-          alignItems: 'start',
-          overflow: 'hidden',
+          gap: '10px', padding: '0 60px',
+          height: '100%', alignItems: 'start', overflow: 'hidden',
         }}>
           {allCols.map((col, ci) => {
             const offset = directions[ci] === 1 ? -400 : 0;
             const translateY = offset + scrollY * speeds[ci] * directions[ci];
             return (
-              <div key={ci} style={{
-                transform: isMobile ? 'none' : `translateY(${translateY}px)`,
-                willChange: 'transform',
-                paddingTop: '20px',
-              }}>
+              <div key={ci} style={{ transform: `translateY(${translateY}px)`, willChange: 'transform', paddingTop: '20px' }}>
                 {col.map((tile, ti) => <Tile key={ti} tile={tile} />)}
               </div>
             );

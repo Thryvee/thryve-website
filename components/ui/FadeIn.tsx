@@ -1,32 +1,42 @@
-'use client';
-import { useEffect, useRef, useState, ReactNode } from 'react';
+"use client";
+import { useEffect, useRef, useState, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
   delay?: number;
-  direction?: 'up' | 'left' | 'right' | 'none';
+  direction?: "up" | "left" | "right" | "none";
   style?: React.CSSProperties;
 }
 
-export default function FadeIn({ children, delay = 0, direction = 'up', style }: Props) {
+export default function FadeIn({
+  children,
+  delay = 0,
+  direction = "up",
+  style,
+}: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
-      { threshold: 0.1 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 },
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, []);
 
   const getTransform = () => {
-    if (visible) return 'translate(0,0)';
-    if (direction === 'up') return 'translateY(40px)';
-    if (direction === 'left') return 'translateX(-40px)';
-    if (direction === 'right') return 'translateX(40px)';
-    return 'none';
+    if (visible) return "translate(0,0)";
+    if (direction === "up") return "translateY(40px)";
+    if (direction === "left") return "translateX(-40px)";
+    if (direction === "right") return "translateX(40px)";
+    return "none";
   };
 
   return (

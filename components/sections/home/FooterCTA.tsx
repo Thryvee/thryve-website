@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function FooterCTA() {
@@ -14,7 +14,7 @@ export default function FooterCTA() {
   return (
     <section
       style={{
-        padding: "140px 48px",
+        padding: isMobile ? "60px 24px 48px" : "140px 48px",
         background: "#0A0A0A",
         color: "#FAFAFA",
         textAlign: "center",
@@ -29,7 +29,7 @@ export default function FooterCTA() {
             letterSpacing: "0.12em",
             textTransform: "uppercase",
             color: "rgba(250,250,250,0.4)",
-            marginBottom: "32px",
+            marginBottom: isMobile ? "20px" : "32px",
           }}
         >
           Ready?
@@ -37,12 +37,12 @@ export default function FooterCTA() {
         <h2
           style={{
             fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "clamp(48px, 7vw, 100px)",
+            fontSize: isMobile ? "clamp(36px, 10vw, 56px)" : "clamp(48px, 7vw, 100px)",
             fontWeight: 500,
             letterSpacing: "-0.03em",
-            lineHeight: 1,
+            lineHeight: 1.05,
             color: "#FAFAFA",
-            marginBottom: "24px",
+            marginBottom: isMobile ? "16px" : "24px",
           }}
         >
           You already know where the leak is.
@@ -50,14 +50,13 @@ export default function FooterCTA() {
         <p
           style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: "16px",
+            fontSize: isMobile ? "14px" : "16px",
             color: "rgba(250,250,250,0.5)",
-            marginBottom: "48px",
+            marginBottom: isMobile ? "32px" : "48px",
             lineHeight: 1.7,
           }}
         >
-          15 minutes. We will tell you exactly where you are losing money and
-          what to do about it.
+          15 minutes. We will tell you exactly where you are losing money and what to do about it.
         </p>
         <div
           style={{
@@ -65,6 +64,8 @@ export default function FooterCTA() {
             gap: "12px",
             justifyContent: "center",
             flexWrap: "wrap",
+            flexDirection: isMobile ? "column" : "row",
+            alignItems: isMobile ? "stretch" : "center",
           }}
         >
           <Link
@@ -82,6 +83,7 @@ export default function FooterCTA() {
               transition: "all 0.3s ease",
               display: "inline-flex",
               alignItems: "center",
+              justifyContent: "center",
               gap: "8px",
             }}
           >
@@ -101,6 +103,8 @@ export default function FooterCTA() {
               border: "1.5px solid rgba(250,250,250,0.2)",
               transition: "all 0.3s ease",
               display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             Get Free Playbook

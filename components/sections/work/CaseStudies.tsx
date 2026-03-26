@@ -113,9 +113,71 @@ export default function CaseStudies() {
   const activeIndex = Math.min(Math.floor(progress * cases.length), cases.length - 1);
   const active = cases[activeIndex];
 
+  // ── Mobile: stacked case study cards ─────────────────────────────────────
+  if (isMobile) {
+    return (
+      <div style={{ background: '#0A0A0A', padding: '56px 0 48px' }}>
+        <div style={{ padding: '0 24px', marginBottom: '40px' }}>
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.35)', display: 'block', marginBottom: '10px' }}>Real Work</span>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(36px, 10vw, 52px)', fontWeight: 500, letterSpacing: '-0.03em', color: '#FAFAFA', lineHeight: 1.05 }}>Case studies.</h2>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(16px, 4.5vw, 20px)', fontWeight: 400, fontStyle: 'italic', color: 'rgba(255,255,255,0.28)', marginTop: '8px' }}>Real clients, real results.</p>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '0 24px' }}>
+          {cases.map((cs, idx) => (
+            <div key={cs.id} style={{
+              background: cs.bg,
+              borderRadius: '20px',
+              padding: '28px 24px',
+              border: '1px solid rgba(255,255,255,0.08)',
+              boxShadow: '0 16px 48px rgba(0,0,0,0.5)',
+              position: 'relative',
+              overflow: 'hidden',
+            }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(90deg, transparent, ${cs.accent}88, transparent)` }} />
+
+              <div style={{ marginBottom: '16px' }}>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: cs.accent }}>
+                  {cs.model} — {cs.category} · {cs.location}
+                </span>
+              </div>
+
+              <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(20px, 5.5vw, 26px)', fontWeight: 500, color: '#FAFAFA', lineHeight: 1.15, marginBottom: '12px', letterSpacing: '-0.02em' }}>
+                {cs.label}.
+              </h3>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.7, marginBottom: '20px' }}>
+                {cs.challenge}
+              </p>
+
+              {/* Results 2x2 */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '16px' }}>
+                {cs.results.map((r, i) => (
+                  <div key={i} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '14px 12px' }}>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '8px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.3)', marginBottom: '6px' }}>{r.metric}</p>
+                    <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: 500, color: '#FAFAFA', lineHeight: 1, letterSpacing: '-0.02em', marginBottom: '4px' }}>{r.after}</p>
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 700, color: cs.accent }}>{r.change}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Pillar tags */}
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                {cs.pillars.map(p => (
+                  <span key={p} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: cs.accent, background: `${cs.accent}18`, border: `1px solid ${cs.accent}33`, padding: '4px 10px', borderRadius: '100px' }}>
+                    {p}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // ── Desktop (unchanged) ───────────────────────────────────────────────────
   return (
     <div ref={sectionRef} className="m-case-outer" style={{ height: `${cases.length * 120}vh`, position: 'relative' }}>
-      <div className="m-case-sticky" style={{ position: isMobile ? 'relative' : 'sticky', top: 0, height: isMobile ? 'auto' : '100vh', overflow: 'hidden', background: active.bg,
+      <div className="m-case-sticky" style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', background: active.bg,
         transition: 'background 1s cubic-bezier(0.16,1,0.3,1)',
       }}>
 

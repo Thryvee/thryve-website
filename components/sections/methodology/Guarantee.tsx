@@ -48,7 +48,7 @@ export default function Guarantee() {
   }, []);
 
   return (
-    <div ref={sectionRef} className="m-guar-outer" style={{ height: '400vh', position: 'relative' }}>
+    <div ref={sectionRef} className="m-guar-outer" style={{ height: isMobile ? 'auto' : '400vh', position: 'relative' }}>
       <div className="m-guar-sticky" style={{ position: isMobile ? 'relative' : 'sticky', top: 0, height: isMobile ? 'auto' : '100vh',
         background: '#0A0A0A', overflow: 'hidden',
         display: 'flex', flexDirection: 'column', justifyContent: 'center',
@@ -67,7 +67,7 @@ export default function Guarantee() {
           GUARANTEE
         </div>
 
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 clamp(20px, 5vw, 80px)', width: '100%', position: 'relative', zIndex: 1, paddingTop: '20px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '40px 24px 48px' : '0 clamp(20px, 5vw, 80px)', width: '100%', position: 'relative', zIndex: 1, paddingTop: isMobile ? undefined : '20px' }}>
 
           {/* Header */}
           <div style={{ marginBottom: '36px' }}>
@@ -81,10 +81,10 @@ export default function Guarantee() {
           </div>
 
           {/* Cards row */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(var(--guar-cols, 3), 1fr)', gap: '16px', perspective: '1200px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '16px', perspective: '1200px' }}>
             {cards.map((card, i) => {
-              const isActive = i <= activeCard;
-              const isCurrent = i === activeCard;
+              const isActive = isMobile ? true : i <= activeCard;
+              const isCurrent = isMobile ? false : i === activeCard;
               return (
                 <div key={i}
                   onMouseMove={e => {
@@ -128,16 +128,18 @@ export default function Guarantee() {
           </div>
 
           {/* Progress dots */}
-          <div style={{ display: 'flex', gap: '8px', marginTop: '28px' }}>
-            {cards.map((_, i) => (
-              <div key={i} style={{
-                width: i === activeCard ? '24px' : '6px',
-                height: '6px', borderRadius: '3px',
-                background: i <= activeCard ? 'var(--purple)' : 'rgba(255,255,255,0.15)',
-                transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
-              }} />
-            ))}
-          </div>
+          {!isMobile && (
+            <div style={{ display: 'flex', gap: '8px', marginTop: '28px' }}>
+              {cards.map((_, i) => (
+                <div key={i} style={{
+                  width: i === activeCard ? '24px' : '6px',
+                  height: '6px', borderRadius: '3px',
+                  background: i <= activeCard ? 'var(--purple)' : 'rgba(255,255,255,0.15)',
+                  transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
+                }} />
+              ))}
+            </div>
+          )}
 
           {/* Bottom quote */}
           <div style={{
@@ -145,8 +147,8 @@ export default function Guarantee() {
             borderTop: '1px solid rgba(255,255,255,0.07)',
             display: 'flex', justifyContent: 'space-between',
             alignItems: 'center', flexWrap: 'wrap', gap: '24px',
-            opacity: activeCard >= 2 ? 1 : 0.15,
-            transform: activeCard >= 2 ? 'translateY(0)' : 'translateY(12px)',
+            opacity: isMobile || activeCard >= 2 ? 1 : 0.15,
+            transform: isMobile || activeCard >= 2 ? 'translateY(0)' : 'translateY(12px)',
             transition: 'all 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s',
           }}>
             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(14px, 1.6vw, 19px)', fontStyle: 'italic', color: 'rgba(255,255,255,0.4)', maxWidth: '600px', lineHeight: 1.5 }}>

@@ -2,6 +2,7 @@ import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
 import Cursor from '@/components/ui/Cursor';
 import ScrollProgress from '@/components/ui/ScrollProgress';
+import WorkHero from '@/components/sections/work/WorkHero';
 import CaseStudies from '@/components/sections/work/CaseStudies';
 import PinterestGrid from '@/components/sections/work/PinterestGrid';
 
@@ -12,31 +13,7 @@ export default function Work() {
       <ScrollProgress />
       <Nav />
       <main>
-        {/* Hero */}
-        <section style={{ padding: 'clamp(90px, 12vw, 160px) clamp(20px, 5vw, 80px) clamp(40px, 6vw, 100px)', background: 'var(--bg)' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--purple)', display: 'block', marginBottom: '20px' }}>
-              Results
-            </span>
-            <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(56px, 8vw, 112px)', fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1, color: 'var(--text)', marginBottom: '28px', whiteSpace: 'nowrap' }}>
-                The numbers <span style={{ color: 'var(--purple)', fontStyle: 'italic' }}>don't lie.</span>
-              </h1>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.7, maxWidth: '520px' }}>
-                Four engagements. Four business models. Every number below is real — no estimates, no projections, no agency math.
-              </p>
-          </div>
-        </section>
-
-        {/* Scroll hint */}
-        <div style={{ background: 'var(--bg)', padding: '0 80px 60px' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ width: '40px', height: '1px', background: 'var(--text-tertiary)' }} />
-            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'var(--text-tertiary)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-              Scroll to explore results
-            </span>
-          </div>
-        </div>
-
+        <WorkHero />
         <CaseStudies />
         <PinterestGrid />
       </main>

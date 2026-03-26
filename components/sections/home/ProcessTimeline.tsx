@@ -74,10 +74,14 @@ export default function ProcessTimeline() {
     { x: 120, y: -80, rx: -15, ry: 20 },   // 04: from top-right
   ];
 
+  // ── Mobile: hidden entirely ────────────────────────────────────────────────
+  if (isMobile) return null;
+
+  // ── Desktop (unchanged) ───────────────────────────────────────────────────
   return (
-    <div ref={sectionRef} className="m-process-outer" style={{ height: isMobile ? 'auto' : '700vh', position: 'relative' }}>
+    <div ref={sectionRef} className="m-process-outer" style={{ height: '700vh', position: 'relative' }}>
       <div style={{
-        position: isMobile ? 'relative' : 'sticky', top: 0, height: isMobile ? 'auto' : '100vh',
+        position: 'sticky', top: 0, height: '100vh',
         background: '#0A0A0A',
         overflow: 'hidden',
         display: 'flex', flexDirection: 'column',
@@ -146,6 +150,7 @@ export default function ProcessTimeline() {
           gridTemplateRows: '1fr 1fr',
           gap: '14px',
           width: '900px',
+          maxWidth: '900px',
           height: '460px',
           perspective: '1400px',
           perspectiveOrigin: '50% 50%',

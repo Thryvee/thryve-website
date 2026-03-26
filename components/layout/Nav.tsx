@@ -33,13 +33,19 @@ export default function Nav() {
     setMenuOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const saved = localStorage.getItem("thryve-theme");
+    if (saved === "dark") {
+      setDark(true);
+      document.documentElement.setAttribute("data-theme", "dark");
+    }
+  }, []);
+
   const toggleTheme = () => {
     const next = !dark;
     setDark(next);
-    document.documentElement.setAttribute(
-      "data-theme",
-      next ? "dark" : "light",
-    );
+    document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
+    localStorage.setItem("thryve-theme", next ? "dark" : "light");
   };
 
   return (
@@ -131,7 +137,8 @@ export default function Nav() {
 
           {/* Desktop right */}
           <div
-            className="nav-desktop nav-desktop-right" style={{ display: "flex", alignItems: "center", gap: "10px" }}
+            className="nav-desktop nav-desktop-right"
+            style={{ display: "flex", alignItems: "center", gap: "10px" }}
           >
             <button
               onClick={toggleTheme}

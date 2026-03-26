@@ -120,9 +120,58 @@ export default function MethodologyScroll() {
   const activeIndex = Math.min(Math.floor(progress * pillars.length), pillars.length - 1);
   const active = pillars[activeIndex];
 
+  // ── Mobile: stacked pillar cards ─────────────────────────────────────────
+  if (isMobile) {
+    return (
+      <div style={{ background: '#0A0A0A', padding: '56px 0 48px' }}>
+        <div style={{ padding: '0 24px', marginBottom: '40px' }}>
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.35)', display: 'block', marginBottom: '10px' }}>The Methodology</span>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(36px, 10vw, 52px)', fontWeight: 500, letterSpacing: '-0.03em', color: '#FAFAFA', lineHeight: 1.05 }}>Four pillars.</h2>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(17px, 4.5vw, 22px)', fontWeight: 400, fontStyle: 'italic', color: 'rgba(255,255,255,0.28)', marginTop: '8px', letterSpacing: '-0.01em' }}>In sequence. In depth.</p>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '0 24px' }}>
+          {pillars.map((p, i) => (
+            <div key={i} style={{
+              background: p.bg,
+              borderRadius: '20px',
+              padding: '28px 24px',
+              border: `1px solid ${p.accent}28`,
+              boxShadow: '0 16px 48px rgba(0,0,0,0.4)',
+              position: 'relative',
+              overflow: 'hidden',
+            }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(90deg, transparent, ${p.accent}88, transparent)` }} />
+              <div style={{ position: 'absolute', right: '-4px', bottom: '-16px', fontFamily: "'Cormorant Garamond', serif", fontSize: '96px', fontWeight: 700, color: 'rgba(255,255,255,0.04)', lineHeight: 1, userSelect: 'none', pointerEvents: 'none' }}>{p.number}</div>
+
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase' as const, color: p.accent, display: 'block', marginBottom: '14px' }}>
+                  {p.number} — {p.name}
+                </span>
+                <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(22px, 6vw, 30px)', fontWeight: 500, color: p.textColor, lineHeight: 1.15, marginBottom: '12px', whiteSpace: 'pre-line', letterSpacing: '-0.02em' }}>
+                  {p.headline}
+                </h3>
+                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '15px', fontStyle: 'italic', color: p.accent, marginBottom: '14px', lineHeight: 1.3 }}>
+                  {p.subhead}
+                </p>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', color: p.dark ? 'rgba(255,255,255,0.45)' : 'rgba(10,10,10,0.5)', lineHeight: 1.75, marginBottom: '20px' }}>
+                  {p.body}
+                </p>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '7px 14px', background: p.dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)', borderRadius: '100px', border: `1px solid ${p.accent}44` }}>
+                  <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: p.accent, display: 'inline-block' }} />
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', fontWeight: 500, color: p.dark ? 'rgba(255,255,255,0.7)' : 'rgba(10,10,10,0.65)' }}>{p.metric}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // ── Desktop (unchanged) ───────────────────────────────────────────────────
   return (
     <div ref={sectionRef} className="m-meth-outer" style={{ height: `${pillars.length * 130}vh`, position: 'relative' }}>
-      <div className="m-meth-sticky" style={{ position: isMobile ? 'relative' : 'sticky', top: 0, height: isMobile ? 'auto' : '100vh',
+      <div className="m-meth-sticky" style={{ position: 'sticky', top: 0, height: '100vh',
         background: active.bg,
         transition: 'background 1s cubic-bezier(0.16,1,0.3,1)',
         overflow: 'hidden',

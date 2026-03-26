@@ -44,8 +44,9 @@ const playbooks = [
   },
 ];
 
-function PlaybookCard({ pb }: { pb: typeof playbooks[0] }) {
+function PlaybookCard({ pb, isMobile }: { pb: typeof playbooks[0]; isMobile: boolean }) {
   const [hoveredChapter, setHoveredChapter] = useState<number | null>(null);
+  const [openChapter, setOpenChapter] = useState<number | null>(null);
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -60,10 +61,133 @@ function PlaybookCard({ pb }: { pb: typeof playbooks[0] }) {
     setTilt({ x, y });
   };
 
-  const isDark = true;
   const textColor = '#FAFAFA';
   const mutedColor = 'rgba(255,255,255,0.45)';
 
+  // ── Mobile card ────────────────────────────────────────────────────────────
+  if (isMobile) {
+    return (
+      <div style={{
+        background: pb.bg,
+        borderRadius: '20px',
+        overflow: 'hidden',
+        border: '1px solid rgba(255,255,255,0.08)',
+        boxShadow: '0 16px 48px rgba(0,0,0,0.25)',
+      }}>
+        {/* Top accent line */}
+        <div style={{ height: '2px', background: `linear-gradient(90deg, transparent, ${pb.accent}, transparent)` }} />
+
+        {/* Header */}
+        <div style={{ padding: '24px 20px 16px', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', right: '-8px', bottom: '-14px', fontFamily: "'Cormorant Garamond', serif", fontSize: '100px', fontWeight: 700, color: 'rgba(255,255,255,0.04)', lineHeight: 1, userSelect: 'none', pointerEvents: 'none' }}>
+            {pb.number === '01' ? '30' : '90'}
+          </div>
+
+          {/* Tag + stats */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap' as const, gap: '8px' }}>
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: pb.accent, background: `${pb.accent}18`, border: `1px solid ${pb.accent}33`, padding: '4px 12px', borderRadius: '100px' }}>
+              {pb.tag}
+            </span>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              {[[pb.pages + ' pages'], [pb.frameworks + ' fw'], [pb.downloads]].map(([val], i) => (
+                <p key={i} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(255,255,255,0.45)', lineHeight: 1 }}>{val}</p>
+              ))}
+            </div>
+          </div>
+
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(22px, 6vw, 30px)', fontWeight: 500, letterSpacing: '-0.02em', lineHeight: 1.1, color: textColor, marginBottom: '6px', position: 'relative', zIndex: 1 }}>
+            {pb.title}
+          </h2>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '14px', fontStyle: 'italic', color: pb.accent, position: 'relative', zIndex: 1 }}>
+            {pb.subtitle}
+          </p>
+        </div>
+
+        {/* Description */}
+        <div style={{ padding: '0 20px 16px' }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: mutedColor, lineHeight: 1.75 }}>
+            {pb.description}
+          </p>
+        </div>
+
+        {/* Chapter list — tap to toggle */}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.25)', padding: '12px 20px 4px' }}>
+            What&apos;s inside
+          </p>
+          {pb.chapters.map((ch, i) => (
+            <div
+              key={i}
+              onClick={() => setOpenChapter(openChapter === i ? null : i)}
+              style={{
+                padding: '14px 20px',
+                borderTop: i > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                background: openChapter === i ? 'rgba(255,255,255,0.05)' : 'transparent',
+                cursor: 'pointer',
+              }}
+            >
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', fontWeight: 600, letterSpacing: '0.1em', color: pb.accent, paddingTop: '2px', flexShrink: 0, minWidth: '18px' }}>{ch.number}</span>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '16px', fontWeight: 500, color: textColor, marginBottom: openChapter === i ? '6px' : '0' }}>
+                    {ch.title}
+                  </p>
+                  <div style={{ maxHeight: openChapter === i ? '120px' : '0', overflow: 'hidden', transition: 'max-height 0.35s cubic-bezier(0.16,1,0.3,1)', opacity: openChapter === i ? 1 : 0 }}>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', color: mutedColor, lineHeight: 1.65, paddingBottom: '4px' }}>
+                      {ch.body}
+                    </p>
+                  </div>
+                </div>
+                <span style={{ color: pb.accent, fontSize: '14px', paddingTop: '2px', flexShrink: 0 }}>
+                  {openChapter === i ? '−' : '+'}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Testimonial */}
+        <div style={{ padding: '16px 20px' }}>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '14px', fontStyle: 'italic', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, marginBottom: '6px' }}>
+            &ldquo;{pb.testimonial.quote}&rdquo;
+          </p>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: pb.accent }}>
+            — {pb.testimonial.brand}
+          </p>
+        </div>
+
+        {/* Email capture */}
+        <div style={{ padding: '0 20px 24px' }}>
+          {submitted ? (
+            <div style={{ textAlign: 'center' as const, padding: '16px', background: `${pb.accent}12`, borderRadius: '12px', border: `1px solid ${pb.accent}25` }}>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', fontWeight: 500, color: textColor, marginBottom: '4px' }}>On its way.</p>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', color: mutedColor }}>Check your inbox — arriving within 5 minutes.</p>
+            </div>
+          ) : (
+            <form onSubmit={e => { e.preventDefault(); setSubmitted(true); }} style={{ display: 'flex', flexDirection: 'column' as const, gap: '10px' }}>
+              <input
+                type='email'
+                placeholder='your@email.com'
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+                style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${pb.accent}33`, borderRadius: '10px', padding: '13px 16px', fontFamily: "'DM Sans', sans-serif", fontSize: '14px', color: textColor, outline: 'none', width: '100%' }}
+              />
+              <button
+                type='submit'
+                style={{ width: '100%', padding: '14px 24px', borderRadius: '100px', background: pb.accent, color: '#FAFAFA', fontFamily: "'DM Sans', sans-serif", fontSize: '13px', fontWeight: 500, border: 'none', cursor: 'pointer', letterSpacing: '0.03em' }}
+              >
+                Send me the playbook →
+              </button>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'rgba(255,255,255,0.2)', textAlign: 'center' as const }}>Free. No spam. Unsubscribe anytime.</p>
+            </form>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // ── Desktop card ────────────────────────────────────────────────────────────
   return (
     <div
       ref={cardRef}
@@ -122,7 +246,7 @@ function PlaybookCard({ pb }: { pb: typeof playbooks[0] }) {
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div style={{ padding: '8px 0' }}>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', padding: '12px 36px 4px' }}>
-            What's inside
+            What&apos;s inside
           </p>
           {pb.chapters.map((ch, i) => (
             <div
@@ -161,7 +285,7 @@ function PlaybookCard({ pb }: { pb: typeof playbooks[0] }) {
       {/* Testimonial */}
       <div style={{ padding: '20px 36px' }}>
         <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '15px', fontStyle: 'italic', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, marginBottom: '8px' }}>
-          "{pb.testimonial.quote}"
+          &ldquo;{pb.testimonial.quote}&rdquo;
         </p>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '9px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: pb.accent }}>
           — {pb.testimonial.brand}
@@ -204,7 +328,7 @@ function PlaybookCard({ pb }: { pb: typeof playbooks[0] }) {
 }
 
 export default function PlaybookCards() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768);
     check();
@@ -212,11 +336,25 @@ export default function PlaybookCards() {
     return () => window.removeEventListener('resize', check);
   }, []);
 
+  if (isMobile === null) return null;
+
+  // ── Mobile ────────────────────────────────────────────────────────────────
+  if (isMobile) {
+    return (
+      <section style={{ padding: '40px 20px 56px', background: 'var(--bg)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {playbooks.map(pb => <PlaybookCard key={pb.id} pb={pb} isMobile={true} />)}
+        </div>
+      </section>
+    );
+  }
+
+  // ── Desktop ────────────────────────────────────────────────────────────────
   return (
     <section className="m-pb-cards-section" style={{ padding: 'clamp(40px, 6vw, 80px) clamp(20px, 5vw, 80px) clamp(60px, 8vw, 120px)', background: 'var(--bg)' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div className="m-pb-cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', alignItems: 'start' }}>
-          {playbooks.map(pb => <PlaybookCard key={pb.id} pb={pb} />)}
+          {playbooks.map(pb => <PlaybookCard key={pb.id} pb={pb} isMobile={false} />)}
         </div>
       </div>
     </section>

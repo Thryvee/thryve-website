@@ -54,7 +54,7 @@ export default function About() {
             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(20px, 2.5vw, 32px)', fontStyle: 'italic', fontWeight: 300, lineHeight: 1.5, color: 'rgba(250,250,250,0.8)', marginBottom: '32px' }}>
               "The brands that win in the next five years will not be the ones with the biggest ad budgets. They will be the ones with the best systems."
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '16px' }}>
               {[['a full engagement', 'Total engagement value'],['4 months', 'To full system independence'],['4 pillars', 'One sequence, no skipping'],['0', 'Lock-in contracts']].map(([val, label], i) => (
                 <div key={i} style={{ padding: '20px', background: 'rgba(250,250,250,0.05)', borderRadius: '12px', border: '1px solid rgba(250,250,250,0.08)' }}>
                   <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '32px', fontWeight: 500, color: '#FAFAFA', lineHeight: 1, marginBottom: '6px' }}>{val}</p>

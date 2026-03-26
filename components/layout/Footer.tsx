@@ -1,6 +1,5 @@
-'use client';
-import { useState, useEffect } from 'react';
-// MOBILE-PATCHED-FO
+"use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function Footer() {
@@ -8,8 +7,8 @@ export default function Footer() {
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768);
     check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
 
   const year = new Date().getFullYear();
@@ -21,7 +20,10 @@ export default function Footer() {
         padding: "80px 0 40px",
       }}
     >
-      <div className="m-footer-container" style={{ maxWidth: "1440px", margin: "0 auto", padding: "0 48px" }}>
+      <div
+        className="m-footer-container"
+        style={{ maxWidth: "1440px", margin: "0 auto", padding: isMobile ? "0 20px" : "0 48px" }}
+      >
         <div
           style={{
             display: "flex",
