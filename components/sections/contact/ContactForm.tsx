@@ -21,10 +21,22 @@ export default function ContactForm() {
 
   const [form, setForm] = useState({ name: '', brand: '', number: '', email: '', revenue: '', challenge: '' });
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      await fetch('/api/contact-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, timestamp: new Date().toISOString() }),
+      });
+    } catch {
+      // fail silently — still show success to user
+    }
+    setLoading(false);
     setSent(true);
   };
 
@@ -202,11 +214,12 @@ export default function ContactForm() {
 
               <button
                 type='submit'
-                className="m-contact-submit" style={{ marginTop: '8px', width: '100%', padding: isMobile ? '14px 20px' : '16px 28px', borderRadius: '100px', background: 'var(--purple)', color: '#FAFAFA', fontFamily: "'DM Sans', sans-serif", fontSize: '14px', fontWeight: 500, letterSpacing: '0.03em', border: '1.5px solid var(--purple)', cursor: 'pointer', transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = 'var(--purple)'; }}
+                disabled={loading}
+                className="m-contact-submit" style={{ marginTop: '8px', width: '100%', padding: isMobile ? '14px 20px' : '16px 28px', borderRadius: '100px', background: 'var(--purple)', color: '#FAFAFA', fontFamily: "'DM Sans', sans-serif", fontSize: '14px', fontWeight: 500, letterSpacing: '0.03em', border: '1.5px solid var(--purple)', cursor: loading ? 'not-allowed' : 'pointer', transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: loading ? 0.7 : 1 }}
+                onMouseEnter={e => { if (!loading) { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = 'var(--purple)'; } }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'var(--purple)'; (e.currentTarget as HTMLElement).style.color = '#FAFAFA'; }}
               >
-                Get My Free Audit →
+                {loading ? 'Submitting…' : 'Get My Free Audit →'}
               </button>
 
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'var(--text-tertiary)', textAlign: 'center', lineHeight: 1.6 }}>
