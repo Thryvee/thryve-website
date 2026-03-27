@@ -142,9 +142,29 @@ export default function Results() {
     );
   }
 
-  // ── Desktop (unchanged) ───────────────────────────────────────────────────
+  // ── Desktop — 3D flip cards ───────────────────────────────────────────────
   return (
     <section className="m-results-section" style={{ padding: 'clamp(60px, 8vw, 120px) clamp(20px, 5vw, 48px)', background: 'var(--bg)' }}>
+      <style>{`
+        .flip-card { perspective: 1200px; }
+        .flip-inner {
+          position: relative; width: 100%; height: 100%;
+          transform-style: preserve-3d;
+          transition: transform 0.55s cubic-bezier(0.16,1,0.3,1);
+        }
+        .flip-card:hover .flip-inner { transform: rotateY(180deg); }
+        .flip-face {
+          position: absolute; inset: 0;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+        }
+        .flip-back { transform: rotateY(180deg); }
+        @media (prefers-reduced-motion: reduce) {
+          .flip-inner { transition: none !important; }
+          .flip-card:hover .flip-inner { transform: none !important; }
+          .flip-back { display: none; }
+        }
+      `}</style>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '64px', flexWrap: 'wrap', gap: '24px' }}>
           <div>
@@ -153,7 +173,8 @@ export default function Results() {
               Numbers that speak.
             </h2>
           </div>
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', color: 'var(--text-tertiary)', marginRight: '4px' }}>Hover to see the tactic →</span>
             {filters.map(f => (
               <button key={f} onClick={() => setActive(f)} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '12px', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', padding: '8px 16px', borderRadius: '100px', border: '1px solid', borderColor: active === f ? 'var(--purple)' : 'var(--border)', background: active === f ? 'var(--purple)' : 'transparent', color: active === f ? '#FAFAFA' : 'var(--text-secondary)', transition: 'all 0.2s ease', cursor: 'pointer' }}>
                 {f}
@@ -163,28 +184,55 @@ export default function Results() {
         </div>
         <div className="m-results-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'clamp(12px, 3vw, 24px)' }}>
           {filtered.map((cs) => (
-            <div key={cs.id} className='card-hover' style={{ border: '1px solid var(--border)', borderRadius: '16px', padding: '40px', background: 'var(--surface)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
-                <div>
-                  <span className='tag tag-purple' style={{ marginBottom: '12px', display: 'inline-flex' }}>{cs.model}</span>
-                  <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: 500, color: 'var(--text)', letterSpacing: '-0.01em' }}>{cs.label}</p>
-                </div>
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'var(--text-tertiary)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{cs.duration}</span>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '32px' }}>
-                {cs.results.map((r, i) => (
-                  <div key={i} style={{ padding: '16px', background: 'var(--bg-secondary)', borderRadius: '8px' }}>
-                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: '8px' }}>{r.metric}</p>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '18px', color: 'var(--text-tertiary)', textDecoration: 'line-through' }}>{r.before}</span>
-                      <span style={{ fontSize: '10px', color: 'var(--text-tertiary)' }}>to</span>
-                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: 600, color: 'var(--purple)' }}>{r.after}</span>
+            <div key={cs.id} className="flip-card" style={{ minHeight: '340px', cursor: 'default' }}>
+              <div className="flip-inner" style={{ minHeight: '340px' }}>
+
+                {/* Front face */}
+                <div className="flip-face" style={{ border: '1px solid var(--border)', borderRadius: '16px', padding: '40px', background: 'var(--surface)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '340px' }}>
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
+                      <div>
+                        <span className='tag tag-purple' style={{ marginBottom: '12px', display: 'inline-flex' }}>{cs.model}</span>
+                        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: 500, color: 'var(--text)', letterSpacing: '-0.01em' }}>{cs.label}</p>
+                      </div>
+                      <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '11px', color: 'var(--text-tertiary)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{cs.duration}</span>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '32px' }}>
+                      {cs.results.map((r, i) => (
+                        <div key={i} style={{ padding: '16px', background: 'var(--bg-secondary)', borderRadius: '8px' }}>
+                          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: '8px' }}>{r.metric}</p>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '18px', color: 'var(--text-tertiary)', textDecoration: 'line-through' }}>{r.before}</span>
+                            <span style={{ fontSize: '10px', color: 'var(--text-tertiary)' }}>→</span>
+                            <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '22px', fontWeight: 600, color: 'var(--purple)' }}>{r.after}</span>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                ))}
-              </div>
-              <div style={{ paddingTop: '24px', borderTop: '1px solid var(--border)' }}>
-                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '18px', fontStyle: 'italic', color: 'var(--text-secondary)', lineHeight: 1.5 }}>'{cs.quote}'</p>
+                  <div style={{ paddingTop: '24px', borderTop: '1px solid var(--border)' }}>
+                    <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '18px', fontStyle: 'italic', color: 'var(--text-secondary)', lineHeight: 1.5 }}>'{cs.quote}'</p>
+                  </div>
+                </div>
+
+                {/* Back face — tactic */}
+                <div className="flip-face flip-back" style={{ border: '1px solid var(--purple-mid)', borderRadius: '16px', padding: '40px', background: 'var(--purple-light)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '340px' }}>
+                  <div>
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--purple)', display: 'block', marginBottom: '20px' }}>
+                      How we did it
+                    </span>
+                    <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(18px, 2vw, 22px)', fontWeight: 500, color: 'var(--text)', lineHeight: 1.55, letterSpacing: '-0.01em' }}>
+                      {cs.tactic}
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '32px', paddingTop: '24px', borderTop: '1px solid var(--border)' }}>
+                    {cs.pillars.map(p => (
+                      <span key={p} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '5px 12px', borderRadius: '100px', background: 'var(--purple)', color: '#FAFAFA' }}>{p}</span>
+                    ))}
+                    <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '10px', color: 'var(--text-tertiary)', letterSpacing: '0.06em', textTransform: 'uppercase', alignSelf: 'center', marginLeft: 'auto' }}>{cs.duration}</span>
+                  </div>
+                </div>
+
               </div>
             </div>
           ))}

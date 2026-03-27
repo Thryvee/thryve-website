@@ -4,17 +4,46 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { href: "/methodology", label: "Methodology" },
-  { href: "/work", label: "Work" },
-  { href: "/playbook", label: "Playbook" },
-  { href: "/contact", label: "Contact" },
+  { href: "/methodology", label: "Methodology", preview: "How the four-pillar system works — and why the sequence matters." },
+  { href: "/work", label: "Work", preview: "Real results from real brands. D2C, B2B, B2C, C2C." },
+  { href: "/playbook", label: "Playbook", preview: "Free frameworks used in every Thryve engagement." },
+  { href: "/contact", label: "Contact", preview: "Book a free 15-minute audit. No pitch. No fluff." },
 ];
+
+function NavPreview({ text }: { text: string }) {
+  return (
+    <div style={{
+      position: "absolute",
+      top: "calc(100% + 12px)",
+      left: "50%",
+      transform: "translateX(-50%)",
+      background: "var(--surface)",
+      border: "1px solid var(--border-strong)",
+      borderRadius: "10px",
+      padding: "10px 14px",
+      width: "200px",
+      pointerEvents: "none",
+      zIndex: 1100,
+      boxShadow: "0 12px 40px rgba(0,0,0,0.12)",
+      animation: "previewIn 0.18s cubic-bezier(0.16,1,0.3,1) forwards",
+    }}>
+      <p style={{
+        fontFamily: "'DM Sans', sans-serif",
+        fontSize: "12px",
+        color: "var(--text-secondary)",
+        lineHeight: 1.6,
+        margin: 0,
+      }}>{text}</p>
+    </div>
+  );
+}
 
 export default function Nav() {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dark, setDark] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const lastY = useRef(0);
   const pathname = usePathname();
 
@@ -37,8 +66,14 @@ export default function Nav() {
     const saved = localStorage.getItem("thryve-theme");
     if (saved === "dark") {
       setDark(true);
-      document.documentElement.setAttribute("data-theme", "dark");
     }
+    // Sync dark state with document attribute (ThemeInit may have set it)
+    const obs = new MutationObserver(() => {
+      setDark(document.documentElement.getAttribute("data-theme") === "dark");
+    });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    setDark(document.documentElement.getAttribute("data-theme") === "dark");
+    return () => obs.disconnect();
   }, []);
 
   const toggleTheme = () => {
@@ -50,6 +85,19 @@ export default function Nav() {
 
   return (
     <>
+      <style>{`
+        @keyframes previewIn {
+          from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+          to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        .nav-mobile { display: none !important; }
+        .nav-desktop { display: flex !important; }
+        @media (max-width: 768px) {
+          .nav-mobile { display: flex !important; }
+          .nav-desktop { display: none !important; }
+        }
+      `}</style>
+
       <nav
         style={{
           position: "fixed",
@@ -58,15 +106,12 @@ export default function Nav() {
           right: 0,
           height: "64px",
           zIndex: 1000,
-          transform:
-            hidden && !menuOpen ? "translateY(-100%)" : "translateY(0)",
+          transform: hidden && !menuOpen ? "translateY(-100%)" : "translateY(0)",
           transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1)",
           background: scrolled || menuOpen ? "var(--surface)" : "transparent",
           backdropFilter: scrolled || menuOpen ? "blur(16px)" : "none",
-          borderBottom:
-            scrolled || menuOpen
-              ? "1px solid var(--border)"
-              : "1px solid transparent",
+          WebkitBackdropFilter: scrolled || menuOpen ? "blur(16px)" : "none",
+          borderBottom: scrolled || menuOpen ? "1px solid var(--border)" : "1px solid transparent",
         }}
       >
         <div
@@ -114,23 +159,33 @@ export default function Nav() {
             {links.map((link) => {
               const isActive = pathname === link.href;
               return (
-                <Link
+                <div
                   key={link.href}
-                  href={link.href}
-                  style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: "13px",
-                    fontWeight: 500,
-                    color: isActive ? "var(--bg)" : "var(--text)",
-                    textDecoration: "none",
-                    padding: "8px 18px",
-                    borderRadius: "100px",
-                    background: isActive ? "var(--text)" : "transparent",
-                    transition: "all 0.2s ease",
-                  }}
+                  style={{ position: "relative" }}
+                  onMouseEnter={() => setHoveredLink(link.href)}
+                  onMouseLeave={() => setHoveredLink(null)}
                 >
-                  {link.label}
-                </Link>
+                  <Link
+                    href={link.href}
+                    style={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      color: isActive ? "var(--bg)" : "var(--text)",
+                      textDecoration: "none",
+                      padding: "8px 18px",
+                      borderRadius: "100px",
+                      background: isActive ? "var(--text)" : "transparent",
+                      transition: "all 0.2s ease",
+                      display: "inline-block",
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                  {hoveredLink === link.href && !isActive && (
+                    <NavPreview text={link.preview} />
+                  )}
+                </div>
               );
             })}
           </div>
@@ -213,43 +268,9 @@ export default function Nav() {
                 padding: "8px",
               }}
             >
-              <span
-                style={{
-                  width: "18px",
-                  height: "1.5px",
-                  background: "var(--text)",
-                  borderRadius: "1px",
-                  transform: menuOpen
-                    ? "rotate(45deg) translate(4px, 4px)"
-                    : "none",
-                  transition: "transform 0.3s ease",
-                  display: "block",
-                }}
-              />
-              <span
-                style={{
-                  width: "18px",
-                  height: "1.5px",
-                  background: "var(--text)",
-                  borderRadius: "1px",
-                  opacity: menuOpen ? 0 : 1,
-                  transition: "opacity 0.3s ease",
-                  display: "block",
-                }}
-              />
-              <span
-                style={{
-                  width: "18px",
-                  height: "1.5px",
-                  background: "var(--text)",
-                  borderRadius: "1px",
-                  transform: menuOpen
-                    ? "rotate(-45deg) translate(4px, -4px)"
-                    : "none",
-                  transition: "transform 0.3s ease",
-                  display: "block",
-                }}
-              />
+              <span style={{ width: "18px", height: "1.5px", background: "var(--text)", borderRadius: "1px", transform: menuOpen ? "rotate(45deg) translate(4px, 4px)" : "none", transition: "transform 0.3s ease", display: "block" }} />
+              <span style={{ width: "18px", height: "1.5px", background: "var(--text)", borderRadius: "1px", opacity: menuOpen ? 0 : 1, transition: "opacity 0.3s ease", display: "block" }} />
+              <span style={{ width: "18px", height: "1.5px", background: "var(--text)", borderRadius: "1px", transform: menuOpen ? "rotate(-45deg) translate(4px, -4px)" : "none", transition: "transform 0.3s ease", display: "block" }} />
             </button>
           </div>
         </div>
@@ -317,15 +338,6 @@ export default function Nav() {
           Book Free Audit
         </Link>
       </div>
-
-      <style>{`
-        .nav-mobile { display: none !important; }
-        .nav-desktop { display: flex !important; }
-        @media (max-width: 768px) {
-          .nav-mobile { display: flex !important; }
-          .nav-desktop { display: none !important; }
-        }
-      `}</style>
     </>
   );
 }

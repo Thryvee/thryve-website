@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { SplitText } from 'gsap/SplitText';
+import MagneticButton from '@/components/ui/MagneticButton';
 
 gsap.registerPlugin(SplitText);
 
@@ -227,15 +228,14 @@ export default function Hero() {
               fontWeight: 500,
               letterSpacing: '-0.02em',
               lineHeight: 1.1,
-              color: 'var(--purple)',
               marginTop: '8px',
-            }}>
+            }} className="gradient-text">
               They Have A Revenue System Problem.
             </p>
           </div>
 
           {/* Body */}
-          <p ref={bodyRef} style={{
+          <p ref={bodyRef} id="hero-sub" style={{
             fontFamily: "'DM Sans', sans-serif",
             fontSize: '14px',
             color: 'var(--text-tertiary)',
@@ -249,7 +249,7 @@ export default function Hero() {
 
           {/* CTAs */}
           <div ref={ctaRef} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
-            <Link href='/contact' style={{
+            <MagneticButton href='/contact' strength={0.35} style={{
               fontFamily: "'DM Sans', sans-serif",
               fontSize: '13px',
               fontWeight: 500,
@@ -268,8 +268,8 @@ export default function Hero() {
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-            </Link>
-            <Link href='/work' style={{
+            </MagneticButton>
+            <MagneticButton href='/work' strength={0.25} style={{
               fontFamily: "'DM Sans', sans-serif",
               fontSize: '13px',
               fontWeight: 500,
@@ -283,7 +283,7 @@ export default function Hero() {
               transition: 'all 0.3s var(--ease-expo)',
             }}>
               See Our Work
-            </Link>
+            </MagneticButton>
           </div>
         </div>
 

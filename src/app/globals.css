@@ -263,7 +263,10 @@ h4 {
 }
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(123,47,190,0.12), 0 8px 32px rgba(123,47,190,0.1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-hover:hover { transform: none; }
 }
 
 .animated-border {
@@ -288,6 +291,18 @@ h4 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Purple glow — apply to any interactive element for consistent hover feel */
+.glow-hover {
+  transition: box-shadow 0.25s cubic-bezier(0.16,1,0.3,1), transform 0.25s cubic-bezier(0.16,1,0.3,1);
+}
+.glow-hover:hover {
+  box-shadow: 0 0 0 3px rgba(123,47,190,0.18), 0 8px 32px rgba(123,47,190,0.2);
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .glow-hover:hover { transform: none; }
 }
 
 input,

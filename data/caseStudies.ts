@@ -8,6 +8,7 @@ export const caseStudies = [
     challenge: 'ROAS had dropped from 2.1x to 0.9x over 6 months. CAC was climbing monthly. Repeat purchase rate stuck at 11%.',
     pillars: ['Acquire', 'Retain'],
     duration: '4 months',
+    tactic: 'Rebuilt Meta campaign architecture from scratch — Prospecting, Lookalike, and Retargeting in strict separation. Added 5 email retention flows and a loyalty programme in Month 2.',
     results: [
       { metric: 'ROAS', before: '0.9x', after: '3.1x' },
       { metric: 'CAC', before: 'Rs 847', after: 'Rs 312' },
@@ -25,6 +26,7 @@ export const caseStudies = [
     challenge: 'No outbound system. Pipeline was entirely referral-dependent. Founder closing every deal personally.',
     pillars: ['Acquire', 'Convert', 'Scale'],
     duration: '4 months',
+    tactic: 'Built a cold email infrastructure targeting 3 ICP segments. Created a qualification framework that cut sales cycle from 67 to 21 days. Delegated closing to a trained SDR by Month 3.',
     results: [
       { metric: 'Pipeline Value', before: 'Rs 0', after: 'Rs 18L' },
       { metric: 'Monthly Leads', before: '3-4', after: '34' },
@@ -42,6 +44,7 @@ export const caseStudies = [
     challenge: 'High traffic, extremely low conversion. Email list of 12,000 with no flows active.',
     pillars: ['Convert', 'Retain'],
     duration: '4 months',
+    tactic: 'Ran a 7-point landing page audit. Fixed 4 critical leaks — headline, social proof placement, CTA copy, and mobile load time. Activated 5 Klaviyo flows on the dormant list in Week 2.',
     results: [
       { metric: 'CVR', before: '0.8%', after: '2.4%' },
       { metric: 'Email Revenue', before: 'Rs 0', after: 'Rs 3.8L/mo' },
@@ -59,6 +62,7 @@ export const caseStudies = [
     challenge: 'User acquisition cost was high and growing. No retention mechanism. LTV barely above first transaction.',
     pillars: ['Acquire', 'Retain', 'Scale'],
     duration: '4 months',
+    tactic: 'Introduced a referral programme that reduced paid CAC by 57%. Built a 3-touch re-engagement sequence for dormant users. Added a loyalty tier system that increased second-purchase rate by 4x.',
     results: [
       { metric: 'LTV', before: 'Rs 1,200', after: 'Rs 4,800' },
       { metric: 'Churn', before: '34%', after: '9%' },

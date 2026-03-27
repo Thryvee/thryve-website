@@ -7,7 +7,9 @@ import Statement from "@/components/sections/home/Statement";
 import StatsComparison from "@/components/sections/home/StatsComparison";
 import ProcessTimeline from "@/components/sections/home/ProcessTimeline";
 import Results from "@/components/sections/home/Results";
+import RevenueCalculator from "@/components/sections/home/RevenueCalculator";
 import TestimonialTicker from "@/components/sections/home/TestimonialTicker";
+import PullQuotes from "@/components/sections/home/PullQuotes";
 import About from "@/components/sections/home/About";
 import FAQ from "@/components/sections/home/FAQ";
 import ChallengeSelector from "@/components/sections/home/ChallengeSelector";
@@ -33,7 +35,9 @@ export default function Home() {
         <StatsComparison />
         <ProcessTimeline />
         <Results />
+        <RevenueCalculator />
         <TestimonialTicker />
+        <PullQuotes />
         <About />
         <FAQ />
         <ChallengeSelector />
