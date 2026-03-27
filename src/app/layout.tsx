@@ -12,9 +12,6 @@ import BackToTop from "@/components/ui/BackToTop";
 import SocialProofNotification from "@/components/ui/SocialProofNotification";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ExitIntent from "@/components/ui/ExitIntent";
-import ReturnVisitor from "@/components/ui/ReturnVisitor";
-import ThemeInit from "@/components/ui/ThemeInit";
-import ScrollDepthNudge from "@/components/ui/ScrollDepthNudge";
 
 export const metadata: Metadata = {
   title: "Thryve — Revenue Systems Agency",
@@ -50,8 +47,6 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ThemeInit />
-        <ReturnVisitor />
         <div className="noise-overlay" aria-hidden="true" />
         <LoadingScreen />
         <CursorTrail />
@@ -61,7 +56,6 @@ export default function RootLayout({
         <BackToTop />
         <SocialProofNotification />
         <ExitIntent />
-        <ScrollDepthNudge />
         <LenisProvider>
           <ScrollToTop />
           <PageTransition>{children}</PageTransition>

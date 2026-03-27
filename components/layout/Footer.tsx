@@ -85,7 +85,6 @@ export default function Footer() {
                 { href: "/methodology", label: "Methodology" },
                 { href: "/work", label: "Work" },
                 { href: "/playbook", label: "Playbook" },
-                { href: "/journal", label: "Journal" },
                 { href: "/contact", label: "Contact" },
               ].map((l) => (
                 <Link

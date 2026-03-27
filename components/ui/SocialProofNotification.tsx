@@ -2,64 +2,43 @@
 import { useEffect, useState } from "react";
 
 const notifications = [
-  { city: "Bangalore", action: "just booked a free audit" },
-  { city: "Delhi", action: "downloaded the 30-Day D2C Playbook" },
-  { city: "Mumbai", action: "started their pilot month" },
-  { city: "Pune", action: "just booked a free audit" },
-  { city: "Hyderabad", action: "downloaded the 90-Day Launch Playbook" },
-  { city: "Chennai", action: "just booked a free audit" },
-  { city: "Ahmedabad", action: "downloaded the 30-Day D2C Playbook" },
-  { city: "Kolkata", action: "started their pilot month" },
+  { brand: "A D2C brand, Delhi", action: "just booked a free audit" },
+  { brand: "A B2B SaaS, Bangalore", action: "downloaded the 30-Day Playbook" },
+  { brand: "A B2C brand, Mumbai", action: "started their pilot month" },
+  { brand: "A D2C brand, Pune", action: "just booked a free audit" },
+  {
+    brand: "A C2C marketplace, Hyderabad",
+    action: "downloaded the Launch Playbook",
+  },
+  { brand: "A B2B firm, Delhi", action: "just booked a free audit" },
 ];
-
-const MAX_SHOWN = 3;
-
-// Random interval between lo and hi milliseconds
-function randInterval(lo: number, hi: number) {
-  return lo + Math.floor(Math.random() * (hi - lo));
-}
 
 export default function SocialProofNotification() {
   const [current, setCurrent] = useState<number | null>(null);
   const [visible, setVisible] = useState(false);
-  const [shownCount, setShownCount] = useState(0);
 
   useEffect(() => {
-    if (shownCount >= MAX_SHOWN) return;
-
-    let hideTimer: ReturnType<typeof setTimeout>;
-    let showTimer: ReturnType<typeof setTimeout>;
-
+    let idx = -1;
     const show = () => {
-      const idx = Math.floor(Math.random() * notifications.length);
+      idx = (idx + 1) % notifications.length;
       setCurrent(idx);
       setVisible(true);
-      setShownCount((c) => c + 1);
-      hideTimer = setTimeout(() => setVisible(false), 4000);
+      setTimeout(() => setVisible(false), 3500);
     };
 
-    // First show: 15-25s after mount. Subsequent: 90-120s intervals.
-    const delay = shownCount === 0 ? randInterval(15000, 25000) : randInterval(90000, 120000);
-    showTimer = setTimeout(show, delay);
-
+    const timer = setTimeout(show, 6000);
+    const interval = setInterval(show, 11000);
     return () => {
-      clearTimeout(showTimer);
-      clearTimeout(hideTimer);
+      clearTimeout(timer);
+      clearInterval(interval);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shownCount]);
+  }, []);
 
-  // Schedule next after each hide (90-120s)
-  // This is handled by the shownCount dep above re-running the effect,
-  // but we delay only after the toast has hidden. We trigger re-run by
-  // incrementing shownCount inside show(), which re-fires the effect.
-
-  if (current === null || shownCount > MAX_SHOWN) return null;
+  if (current === null) return null;
   const n = notifications[current];
 
   return (
     <div
-      aria-live="polite"
       style={{
         position: "fixed",
         bottom: "88px",
@@ -75,7 +54,9 @@ export default function SocialProofNotification() {
         boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
         maxWidth: "280px",
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0) scale(1)" : "translateY(16px) scale(0.96)",
+        transform: visible
+          ? "translateY(0) scale(1)"
+          : "translateY(16px) scale(0.96)",
         transition: "all 0.4s cubic-bezier(0.16,1,0.3,1)",
         pointerEvents: "none",
       }}
@@ -97,10 +78,26 @@ export default function SocialProofNotification() {
         ✦
       </div>
       <div>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", fontWeight: 600, color: "var(--text)", marginBottom: "2px", lineHeight: 1.3 }}>
-          A founder from {n.city}
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "12px",
+            fontWeight: 600,
+            color: "var(--text)",
+            marginBottom: "2px",
+            lineHeight: 1.3,
+          }}
+        >
+          {n.brand}
         </p>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11px", color: "var(--text-tertiary)", lineHeight: 1.3 }}>
+        <p
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "11px",
+            color: "var(--text-tertiary)",
+            lineHeight: 1.3,
+          }}
+        >
           {n.action}
         </p>
       </div>
