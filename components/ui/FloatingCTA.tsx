@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 // Update this to Sakcham's actual WhatsApp number (country code + number, no spaces/dashes)
-const WHATSAPP_NUMBER = "919999999999";
+const WHATSAPP_NUMBER = "918002261848";
 const WHATSAPP_MESSAGE = "Hi Sakcham, I'd like to learn more about Thryve's revenue systems.";
 
 export default function FloatingCTA() {
