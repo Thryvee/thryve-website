@@ -9,7 +9,6 @@ import Spotlight from "@/components/ui/Spotlight";
 import PageTransition from "@/components/ui/PageTransition";
 import FloatingCTA from "@/components/ui/FloatingCTA";
 import BackToTop from "@/components/ui/BackToTop";
-import SocialProofNotification from "@/components/ui/SocialProofNotification";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ExitIntent from "@/components/ui/ExitIntent";
 
@@ -54,7 +53,7 @@ export default function RootLayout({
         <SectionLabel />
         <FloatingCTA />
         <BackToTop />
-        <SocialProofNotification />
+        
         <ExitIntent />
         <LenisProvider>
           <ScrollToTop />
