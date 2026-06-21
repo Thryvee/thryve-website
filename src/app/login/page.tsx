@@ -5,7 +5,7 @@ export default function LoginRedirect() {
   useEffect(() => {
     // Redirect to the dashboard app
     // Update this URL once the dashboard is deployed on Vercel
-    window.location.href = "https://dashboard.thhryve.com/login";
+    window.location.href = "https://thryve-dashboard.vercel.app/login";
   }, []);
 
   return (
