@@ -83,7 +83,7 @@ export default function Footer() {
                   border: "1px solid rgba(250,250,250,0.15)",
                 }}
               >
-                Client Login &rarr;
+                Login &rarr;
               </Link>
             </div>
           </div>
@@ -106,7 +106,7 @@ export default function Footer() {
                 { href: "/work", label: "Work" },
                 { href: "/playbook", label: "Playbook" },
                 { href: "/contact", label: "Contact" },
-                { href: "/login", label: "Client Login" },
+                { href: "/login", label: "Login" },
               ].map((l) => (
                 <Link
                   key={l.href}
