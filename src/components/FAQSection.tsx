@@ -160,7 +160,7 @@ export default function FAQSection() {
       >
         <p className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
           <span className="text-black">Questions? Answers.</span>{" "}
-          <span className="text-black/50">Everything you'd want to know before starting.</span>
+          <span className="text-black/50">Everything you&apos;d want to know before starting.</span>
         </p>
       </motion.div>
 

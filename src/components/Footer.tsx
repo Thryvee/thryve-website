@@ -51,7 +51,7 @@ export default function Footer() {
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="mt-3 text-sm leading-relaxed text-white/50"
             >
-              Growth systems, funnel breakdowns, and the occasional result we can't help
+              Growth systems, funnel breakdowns, and the occasional result we can&apos;t help
               bragging about — straight to your inbox.
             </motion.p>
 
