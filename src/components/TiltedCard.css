@@ -1,0 +1,13 @@
+.tilted-card-figure {
+  position: relative;
+  perspective: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tilted-card-inner {
+  position: relative;
+  transform-style: preserve-3d;
+}
