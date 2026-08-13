@@ -6,7 +6,7 @@ import TiltedCard from "./TiltedCard";
 
 const stats = [
   { label: "Audit's Delivered", value: "128+" },
-  { label: "Ad Creative Made", value: "10000+" },
+  { label: "Ad Creative Made", value: "13424+" },
   { label: "Client's Satisfaction Rate", value: "98%" },
 ];
 

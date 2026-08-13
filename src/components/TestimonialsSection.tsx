@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
+import AvatarGlyph from "./AvatarGlyph";
 
 const testimonials = [
   {
@@ -103,10 +104,10 @@ export default function TestimonialsSection() {
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         className="mx-auto max-w-2xl px-6 text-center"
       >
-        <p className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
+        <h2 className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
           <span className="text-black">Trusted by growing brands.</span>{" "}
           <span className="text-black/50">Hear what clients are saying about Thryve.</span>
-        </p>
+        </h2>
       </motion.div>
 
       <motion.div
@@ -141,17 +142,11 @@ export default function TestimonialsSection() {
               </p>
 
               <div className="relative z-10 flex items-center gap-3">
-                <div
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white"
-                  style={{
-                    background: `linear-gradient(135deg, hsl(${(i * 47) % 360}, 70%, 55%), hsl(${(i * 47 + 40) % 360}, 70%, 45%))`,
-                  }}
-                >
-                  {t.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </div>
+                <AvatarGlyph
+                  seed={t.name}
+                  size={36}
+                  className="shrink-0 rounded-full shadow-sm ring-1 ring-black/5"
+                />
                 <div>
                   <p className="text-sm font-medium text-black">{t.name}</p>
                   <p className="text-xs text-black/50">{t.role}</p>

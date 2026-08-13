@@ -13,13 +13,13 @@ export default function AboutTrustedBy() {
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         className="mx-auto max-w-3xl text-center"
       >
-        <p className="font-display leading-tight" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
+        <h2 className="font-display leading-tight" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
           <span className="text-black">A system built for scale.</span>{" "}
           <span className="text-black/50">
             Every engagement runs on the same testing, tracking, and reporting infrastructure —
             proven across dozens of brands.
           </span>
-        </p>
+        </h2>
       </motion.div>
 
       <div className="mx-auto mt-20 grid max-w-6xl grid-cols-2 gap-6 md:grid-cols-4">

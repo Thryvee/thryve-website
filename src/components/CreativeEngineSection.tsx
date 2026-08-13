@@ -35,13 +35,13 @@ export default function CreativeEngineSection() {
   return (
     <section className="relative w-full bg-white px-6 pt-24 pb-10 md:px-16">
       <div className="mx-auto max-w-2xl text-center">
-        <p className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
+        <h2 className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
           <span className="text-black">Curious about our process?</span>{" "}
           <span className="text-black/50">
             We favour developing a brand identity and testing each system rigorously for maximum
             results.
           </span>
-        </p>
+        </h2>
 
         <div className="mt-8 flex items-center justify-center gap-4">
           <SpecularButton

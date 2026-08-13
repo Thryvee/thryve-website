@@ -11,7 +11,7 @@ import { useDarkSection } from "./NavThemeContext";
 const gradientColors = ["#5227FF", "#6366F1", "#A855F7"];
 
 const stats = [
-  { label: "Brands Audited", value: "293+", accent: "linear-gradient(135deg, #a855f7, #6366f1)" },
+  { label: "Brands Audited", value: "128+", accent: "linear-gradient(135deg, #a855f7, #6366f1)" },
   { label: "Avg. Client CAC Reduced", value: "38%", accent: "linear-gradient(135deg, #ec4899, #a855f7)" },
   { label: "Client Retention Rate", value: "94%", accent: "linear-gradient(135deg, #6366f1, #ec4899)" },
 ];

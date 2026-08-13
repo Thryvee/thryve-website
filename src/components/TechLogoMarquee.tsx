@@ -17,7 +17,13 @@ export default function TechLogoMarquee() {
               key={`${src}-${i}`}
               className="relative flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-2xl border border-black/5 bg-white p-4 shadow-sm md:h-28 md:w-28"
             >
-              <Image src={src} alt="" fill sizes="112px" className="object-contain p-4" />
+              <Image
+                src={src}
+                alt="Platform Thryve integrates with for acquisition, conversion, and retention systems"
+                fill
+                sizes="112px"
+                className="object-contain p-4"
+              />
             </div>
           ))}
         </div>

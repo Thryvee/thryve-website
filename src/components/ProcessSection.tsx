@@ -232,13 +232,13 @@ export default function ProcessSection() {
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         className="mx-auto max-w-2xl text-center"
       >
-        <p className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
+        <h2 className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
           <span className="text-black">Why work with us?</span>{" "}
           <span className="text-black/50">
             By the end of our first sprint you&apos;ll have a system that&apos;s already live,
             already selling.
           </span>
-        </p>
+        </h2>
       </motion.div>
 
       <motion.div

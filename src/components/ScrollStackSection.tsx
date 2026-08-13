@@ -91,13 +91,13 @@ export default function ScrollStackSection() {
       style={{ background }}
     >
       <div className="mx-auto max-w-2xl px-6 pt-20 pb-8 text-center md:pt-28">
-        <p className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
+        <h2 className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
           <span className="text-white">What services do you get?</span>{" "}
           <span className="text-white/50">
             We simply offer the entire system to anyone who wants to scale their brand with
             absolute certainty.
           </span>
-        </p>
+        </h2>
       </div>
 
       <ScrollStack
