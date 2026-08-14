@@ -67,7 +67,7 @@ export default function AboutCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 mt-6 flex items-center justify-center gap-3"
+          className="relative z-10 mx-auto mt-6 flex w-full max-w-xs flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:items-center sm:justify-center"
         >
           <button
             onClick={() => router.push("/contact")}
@@ -76,10 +76,10 @@ export default function AboutCTA() {
             Contact Us
           </button>
           <button
-            onClick={() => router.push("/#services")}
+            onClick={() => router.push("/case-studies")}
             className="rounded-full border border-black/15 bg-white px-6 py-2.5 text-sm font-semibold text-black transition-transform duration-300 hover:scale-105"
           >
-            See Our Services
+            See Case Studies
           </button>
         </motion.div>
       </motion.div>

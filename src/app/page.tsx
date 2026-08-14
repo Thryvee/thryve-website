@@ -1,8 +1,9 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import HeroTestimonialCard from "@/components/HeroTestimonialCard";
 import ImageTrail from "@/components/ImageTrail";
 import PageEnter from "@/components/PageEnter";
-// Hidden for now until we have enough content
+// Hidden for now — keeping the component/data in place to re-enable later
 // import VideoMarqueeSection from "@/components/VideoMarqueeSection";
 import SocialProofSection from "@/components/SocialProofSection";
 import TrustedBySection from "@/components/TrustedBySection";
@@ -11,9 +12,12 @@ import CreativeEngineSection from "@/components/CreativeEngineSection";
 // Hidden for now until we have enough content
 // import ReelsMarqueeSection from "@/components/ReelsMarqueeSection";
 import ProcessSection from "@/components/ProcessSection";
+import LeadMagnetSection from "@/components/LeadMagnetSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
+import LeadMagnetTrigger from "@/components/LeadMagnetTrigger";
+import StickyBookCTA from "@/components/StickyBookCTA";
 import { TrailVisibilityProvider } from "@/components/TrailVisibilityContext";
 import { NavThemeProvider } from "@/components/NavThemeContext";
 import TrailLayer from "@/components/TrailLayer";
@@ -118,9 +122,10 @@ export default function Home() {
             <PageEnter>
               <Hero />
             </PageEnter>
+            <HeroTestimonialCard />
           </section>
 
-          {/* Hidden for now until we have enough content — see AGENTS/CLAUDE notes */}
+          {/* Hidden for now — keeping the component/data in place to re-enable later */}
           {/* <VideoMarqueeSection /> */}
 
           <SocialProofSection />
@@ -136,11 +141,17 @@ export default function Home() {
 
           <ProcessSection />
 
+          <LeadMagnetSection />
+
           <TestimonialsSection />
 
           <FAQSection />
 
           <Footer />
+
+          <LeadMagnetTrigger />
+
+          <StickyBookCTA />
         </NavThemeProvider>
       </TrailVisibilityProvider>
     </main>

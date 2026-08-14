@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Hanken_Grotesk } from "next/font/google";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import CookieConsent from "@/components/CookieConsent";
+import ThryveAI from "@/components/ThryveAI";
 import "./globals.css";
 
 const hankenGrotesk = Hanken_Grotesk({
@@ -119,7 +121,7 @@ export default function RootLayout({
       lang="en"
       className={`${hankenGrotesk.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
@@ -128,6 +130,8 @@ export default function RootLayout({
           }}
         />
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
+        <CookieConsent />
+        <ThryveAI />
       </body>
     </html>
   );

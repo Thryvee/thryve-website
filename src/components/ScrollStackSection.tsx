@@ -91,13 +91,28 @@ export default function ScrollStackSection() {
       style={{ background }}
     >
       <div className="mx-auto max-w-2xl px-6 pt-20 pb-8 text-center md:pt-28">
-        <h2 className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
-          <span className="text-white">What services do you get?</span>{" "}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="text-xs font-medium tracking-[0.25em] text-white/40 uppercase"
+        >
+          One system, four parts
+        </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="font-display mt-3 leading-snug"
+          style={{ fontSize: "clamp(20px, 3vw, 28px)" }}
+        >
+          <span className="text-white">Everything your revenue engine needs.</span>{" "}
           <span className="text-white/50">
-            We simply offer the entire system to anyone who wants to scale their brand with
-            absolute certainty.
+            Built as one system, not four separate vendors passing you around.
           </span>
-        </h2>
+        </motion.h2>
       </div>
 
       <ScrollStack
@@ -129,7 +144,7 @@ export default function ScrollStackSection() {
                   <motion.h3
                     {...fadeUp}
                     transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
-                    className="font-display text-4xl leading-[1.05] text-black md:text-6xl"
+                    className="font-display text-[7vw] leading-[1.05] text-black sm:text-4xl md:text-6xl"
                   >
                     {isSecond ? (
                       <>

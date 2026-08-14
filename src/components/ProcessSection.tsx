@@ -225,21 +225,30 @@ export default function ProcessSection() {
         animate={{ x: [0, -50, 0], y: [0, -30, 0] }}
         transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 1 }}
       />
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.6 }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        className="mx-auto max-w-2xl text-center"
-      >
-        <h2 className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
-          <span className="text-black">Why work with us?</span>{" "}
+      <div className="mx-auto max-w-2xl text-center">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="text-xs font-medium tracking-[0.25em] text-black/35 uppercase"
+        >
+          First sprint
+        </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="font-display mt-3 leading-snug"
+          style={{ fontSize: "clamp(20px, 3vw, 28px)" }}
+        >
+          <span className="text-black">Already live. Already selling.</span>{" "}
           <span className="text-black/50">
-            By the end of our first sprint you&apos;ll have a system that&apos;s already live,
-            already selling.
+            By the end of sprint one, not somewhere on a future roadmap.
           </span>
-        </h2>
-      </motion.div>
+        </motion.h2>
+      </div>
 
       <motion.div
         style={{ opacity: gridOpacity, y: gridY, willChange: "transform, opacity" }}

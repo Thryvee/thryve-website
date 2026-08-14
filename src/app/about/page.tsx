@@ -5,6 +5,7 @@ import MeetTheFounder from "@/components/MeetTheFounder";
 import AboutValues from "@/components/AboutValues";
 import AboutCTA from "@/components/AboutCTA";
 import Footer from "@/components/Footer";
+import StickyBookCTA from "@/components/StickyBookCTA";
 import { NavThemeProvider } from "@/components/NavThemeContext";
 
 export const metadata: Metadata = {
@@ -54,6 +55,8 @@ export default function AboutPage() {
         <AboutCTA />
 
         <Footer />
+
+        <StickyBookCTA />
       </NavThemeProvider>
     </main>
   );

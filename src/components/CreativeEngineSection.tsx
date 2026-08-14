@@ -35,13 +35,28 @@ export default function CreativeEngineSection() {
   return (
     <section className="relative w-full bg-white px-6 pt-24 pb-10 md:px-16">
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
-          <span className="text-black">Curious about our process?</span>{" "}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="text-xs font-medium tracking-[0.25em] text-black/35 uppercase"
+        >
+          The process
+        </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="font-display mt-3 leading-snug"
+          style={{ fontSize: "clamp(20px, 3vw, 28px)" }}
+        >
+          <span className="text-black">Brand first. Systems second. Growth third.</span>{" "}
           <span className="text-black/50">
-            We favour developing a brand identity and testing each system rigorously for maximum
-            results.
+            Every engagement is tested rigorously in that order — nothing ships on a hunch.
           </span>
-        </h2>
+        </motion.h2>
 
         <div className="mt-8 flex items-center justify-center gap-4">
           <SpecularButton

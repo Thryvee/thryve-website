@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local lead capture fallback store (no ESP wired yet)
+/.data/
+
 # tooling metadata
 .claude-flow/
 .claude/proven-config.json

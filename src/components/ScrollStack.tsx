@@ -103,7 +103,7 @@ export default function ScrollStack({
     <div
       ref={containerRef}
       className={`scroll-stack-scroller ${className}`.trim()}
-      style={{ height: `${(total * perCardScroll + 0.3) * 100}vh` }}
+      style={{ height: `${(total * perCardScroll + 0.3) * 100}dvh` }}
     >
       <div className="scroll-stack-stage">
         {items.map((item, i) => (

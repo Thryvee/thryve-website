@@ -30,7 +30,7 @@ export default function AboutHero() {
   return (
     <section
       ref={setRefs}
-      className="relative w-full overflow-hidden bg-black px-6 pt-64 pb-32 md:px-16"
+      className="relative w-full overflow-hidden bg-black px-6 pt-40 pb-24 md:px-16 md:pt-64 md:pb-32"
     >
       <div className="mx-auto max-w-4xl text-center">
         <h1
@@ -55,7 +55,7 @@ export default function AboutHero() {
         </h1>
       </div>
 
-      <div className="mx-auto mt-40 grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-3">
+      <div className="mx-auto mt-20 grid max-w-6xl grid-cols-1 gap-6 md:mt-40 md:grid-cols-3">
         {stats.map((stat, i) => (
           <motion.div
             key={stat.label}

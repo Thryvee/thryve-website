@@ -17,6 +17,7 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
       smoothWheel: true,
       wheelMultiplier: 1,
       touchMultiplier: 1.2,
+      allowNestedScroll: true,
     });
 
     window.lenisInstance = lenis;

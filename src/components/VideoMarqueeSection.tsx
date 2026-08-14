@@ -10,12 +10,11 @@ interface VideoItem {
 }
 
 const videos: VideoItem[] = [
-  { id: "5t9KUOfowrk", title: "Thryve video" },
+  { id: "Zv6_BeWA_mk", title: "Thryve video" },
   { id: "M7lc1UVf-VE", title: "Placeholder video 2" },
   { id: "aqz-KE-bpKQ", title: "Placeholder video 3" },
   { id: "ScMzIvxBSi4", title: "Placeholder video 4" },
   { id: "9bZkp7q19f0", title: "Placeholder video 5" },
-  { id: "jNQXAC9IVRw", title: "Placeholder video 6" },
 ];
 
 const SCROLL_DURATION_S = 32;
@@ -182,10 +181,57 @@ export default function VideoMarqueeSection() {
 
   const marqueeItems = [...videos, ...videos];
 
+  function renderCard(video: VideoItem, instanceKey: string) {
+    const isOpen = openId === instanceKey;
+    return (
+      <div
+        key={instanceKey}
+        className="relative aspect-video w-full shrink-0 overflow-hidden rounded-2xl bg-zinc-900 md:w-105 lg:w-130"
+      >
+        {isOpen ? (
+          <VideoPlayer video={video} onPlayingChange={handlePlayingChange} />
+        ) : (
+          <button
+            type="button"
+            onClick={() => openVideo(instanceKey)}
+            className="group relative h-full w-full cursor-pointer"
+            aria-label={`Play ${video.title}`}
+          >
+            <img
+              src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+              alt={video.title}
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              draggable={false}
+            />
+            <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-black/10" />
+            <span className="absolute top-1/2 left-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform duration-300 group-hover:scale-110">
+              <svg viewBox="0 0 24 24" className="ml-1 h-6 w-6 fill-black">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </span>
+          </button>
+        )}
+
+        {isOpen && (
+          <button
+            type="button"
+            onClick={closeVideo}
+            className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/70 text-white/90 backdrop-blur-sm transition-colors hover:bg-black/90"
+            aria-label="Close video"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4">
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </button>
+        )}
+      </div>
+    );
+  }
+
   return (
     <section
       ref={setRefs}
-      className="relative flex h-screen w-full flex-col items-center justify-center gap-16 overflow-hidden bg-black"
+      className="relative flex w-full flex-col items-center justify-center gap-10 overflow-hidden bg-black py-16 md:h-screen md:gap-16 md:py-0"
     >
       <WarpText
         text="Brands We Audited."
@@ -199,10 +245,16 @@ export default function VideoMarqueeSection() {
         ripple
         fontSize="clamp(2rem, 6vw, 5rem)"
         fontWeight={800}
-        style={{ height: "200px" }}
+        style={{ height: "140px" }}
       />
 
-      <div className="relative w-full overflow-hidden">
+      {/* Mobile: plain vertical stack, no auto-scroll — the visitor scrolls through every video themselves. */}
+      <div className="flex w-full flex-col gap-6 px-6 md:hidden">
+        {videos.map((video, i) => renderCard(video, `${video.id}-${i}-mobile`))}
+      </div>
+
+      {/* Desktop: self-playing horizontal marquee. */}
+      <div className="relative hidden w-full overflow-hidden md:block">
         <div
           className="flex w-max items-center gap-8 px-8"
           style={{
@@ -210,59 +262,7 @@ export default function VideoMarqueeSection() {
             animationPlayState: isFrozen ? "paused" : "running",
           }}
         >
-          {marqueeItems.map((video, i) => {
-            const instanceKey = `${video.id}-${i}`;
-            const isOpen = openId === instanceKey;
-
-            return (
-              <div
-                key={instanceKey}
-                className="relative aspect-video w-105 shrink-0 overflow-hidden rounded-2xl bg-zinc-900 md:w-130"
-              >
-                {isOpen ? (
-                  <VideoPlayer video={video} onPlayingChange={handlePlayingChange} />
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => openVideo(instanceKey)}
-                    className="group relative h-full w-full cursor-pointer"
-                    aria-label={`Play ${video.title}`}
-                  >
-                    <img
-                      src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
-                      alt={video.title}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      draggable={false}
-                    />
-                    <div className="absolute inset-0 bg-black/20 transition-colors duration-300 group-hover:bg-black/10" />
-                    <span className="absolute top-1/2 left-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow-lg transition-transform duration-300 group-hover:scale-110">
-                      <svg viewBox="0 0 24 24" className="ml-1 h-6 w-6 fill-black">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </span>
-                  </button>
-                )}
-
-                {isOpen && (
-                  <button
-                    type="button"
-                    onClick={closeVideo}
-                    className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/70 text-white/90 backdrop-blur-sm transition-colors hover:bg-black/90"
-                    aria-label="Close video"
-                  >
-                    <svg viewBox="0 0 24 24" className="h-4 w-4">
-                      <path
-                        d="M6 6l12 12M18 6L6 18"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </button>
-                )}
-              </div>
-            );
-          })}
+          {marqueeItems.map((video, i) => renderCard(video, `${video.id}-${i}`))}
         </div>
 
         <div
