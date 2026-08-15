@@ -7,7 +7,7 @@ import { motion } from "motion/react";
 
 const links = [
   { label: "About", href: "/about", type: "page" },
-  { label: "Services", href: "services", type: "scroll" },
+  { label: "Services", href: "/services", type: "page" },
   { label: "Case Studies", href: "/case-studies", type: "page" },
   { label: "Testimonials", href: "testimonials", type: "scroll" },
   { label: "FAQs", href: "faq", type: "scroll" },

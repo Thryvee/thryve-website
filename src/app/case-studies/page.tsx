@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CaseStudyShowcase from "@/components/CaseStudyShowcase";
+import AboutCTA from "@/components/AboutCTA";
 import StickyBookCTA from "@/components/StickyBookCTA";
 import { NavThemeProvider } from "@/components/NavThemeContext";
 import { caseStudies } from "@/lib/caseStudiesData";
@@ -39,13 +40,22 @@ const caseStudiesPageSchema = {
   })),
 };
 
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://thhryve.com" },
+    { "@type": "ListItem", position: 2, name: "Case Studies", item: "https://thhryve.com/case-studies" },
+  ],
+};
+
 export default function CaseStudiesPage() {
   return (
     <main className="min-h-screen w-full bg-white">
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudiesPageSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([caseStudiesPageSchema, breadcrumbSchema]) }}
       />
       <NavThemeProvider>
         <Navbar />
@@ -60,6 +70,8 @@ export default function CaseStudiesPage() {
         </section>
 
         <CaseStudyShowcase />
+
+        <AboutCTA secondaryCtaLabel="See Services" secondaryCtaHref="/services" />
 
         <Footer />
 

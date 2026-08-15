@@ -8,9 +8,9 @@ import SpecularButton from "./SpecularButton";
 import { useNavTheme } from "./NavThemeContext";
 
 const navLinks = [
-  { label: "About", href: "/about", type: "page" },
-  { label: "Services", href: "services", type: "scroll" },
-  { label: "Case Studies", href: "/case-studies", type: "page" },
+  { label: "About", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Case Studies", href: "/case-studies" },
 ] as const;
 
 export default function Navbar() {
@@ -21,23 +21,6 @@ export default function Navbar() {
   const textColor = isDark ? "text-white" : "text-black";
   const textColorMuted = isDark ? "text-white/70" : "text-black/70";
   const hex = isDark ? "#ffffff" : "#000000";
-
-  const goToLink = (link: (typeof navLinks)[number]) => {
-    setMobileOpen(false);
-    if (link.type === "scroll") {
-      if (window.location.pathname !== "/") {
-        router.push(`/#${link.href}`);
-        return;
-      }
-      const target = document.getElementById(link.href);
-      if (!target) return;
-      if (window.lenisInstance) {
-        window.lenisInstance.scrollTo(target, { offset: 0 });
-      } else {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-  };
 
   return (
     <header className="pointer-events-auto fixed top-0 left-0 z-50 w-full">
@@ -65,18 +48,6 @@ export default function Navbar() {
                 </span>
               </span>
             );
-
-            if (link.type === "scroll") {
-              return (
-                <button
-                  key={link.label}
-                  onClick={() => goToLink(link)}
-                  className="group relative block h-4 overflow-hidden text-sm leading-4"
-                >
-                  {labelSpans}
-                </button>
-              );
-            }
 
             return (
               <Link
@@ -154,26 +125,16 @@ export default function Navbar() {
             }}
           >
             <nav className="flex flex-col p-2">
-              {navLinks.map((link) =>
-                link.type === "scroll" ? (
-                  <button
-                    key={link.label}
-                    onClick={() => goToLink(link)}
-                    className="rounded-2xl px-4 py-3.5 text-left text-base font-medium text-black transition-colors duration-200 hover:bg-black/5"
-                  >
-                    {link.label}
-                  </button>
-                ) : (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="rounded-2xl px-4 py-3.5 text-base font-medium text-black transition-colors duration-200 hover:bg-black/5"
-                  >
-                    {link.label}
-                  </Link>
-                )
-              )}
+              {navLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-2xl px-4 py-3.5 text-base font-medium text-black transition-colors duration-200 hover:bg-black/5"
+                >
+                  {link.label}
+                </Link>
+              ))}
               <Link
                 href="/contact"
                 onClick={() => setMobileOpen(false)}

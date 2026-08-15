@@ -35,13 +35,22 @@ const aboutPageSchema = {
     "Thryve helps ambitious D2C brands turn attention into revenue through a dedicated-team, audit-first approach to acquisition, conversion, and retention.",
 };
 
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://thhryve.com" },
+    { "@type": "ListItem", position: 2, name: "About", item: "https://thhryve.com/about" },
+  ],
+};
+
 export default function AboutPage() {
   return (
     <main className="min-h-screen w-full bg-white">
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([aboutPageSchema, breadcrumbSchema]) }}
       />
       <NavThemeProvider>
         <Navbar />

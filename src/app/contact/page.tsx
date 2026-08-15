@@ -27,13 +27,13 @@ export default function ContactPage() {
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="mx-auto max-w-2xl"
         >
-          <p className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
+          <h1 className="font-display leading-snug" style={{ fontSize: "clamp(20px, 3vw, 28px)" }}>
             <span className="text-black">Book your free 30-minute growth audit call below.</span>{" "}
             <span className="text-black/50">
               We&apos;ll audit your funnel, find the highest-leverage gaps, and show you exactly
               where the opportunity is.
             </span>
-          </p>
+          </h1>
         </motion.div>
 
         <motion.div

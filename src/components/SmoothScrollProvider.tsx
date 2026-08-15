@@ -1,12 +1,24 @@
 "use client";
 
 import { useEffect, ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
 declare global {
   interface Window {
     lenisInstance?: Lenis;
   }
+}
+
+function ScrollToTopOnRouteChange() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    window.lenisInstance?.scrollTo(0, { immediate: true });
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
 }
 
 export default function SmoothScrollProvider({ children }: { children: ReactNode }) {
@@ -57,5 +69,10 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
     };
   }, []);
 
-  return <>{children}</>;
+  return (
+    <>
+      <ScrollToTopOnRouteChange />
+      {children}
+    </>
+  );
 }

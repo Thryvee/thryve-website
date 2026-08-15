@@ -10,7 +10,7 @@ import {
   type AiEntry,
   type AiAction,
 } from "@/lib/thryveAiData";
-import { CONSENT_ANSWERED_EVENT } from "./CookieConsent";
+import { CONSENT_ANSWERED_EVENT, CONSENT_STORAGE_KEY } from "./CookieConsent";
 
 interface ChatMessage {
   id: string;
@@ -50,6 +50,10 @@ export default function ThryveAI() {
 
   // Only appear once the cookie banner has been answered — never stacked with it.
   useEffect(() => {
+    if (localStorage.getItem(CONSENT_STORAGE_KEY)) {
+      setReady(true);
+      return;
+    }
     const check = () => setReady(true);
     window.addEventListener(CONSENT_ANSWERED_EVENT, check);
     return () => window.removeEventListener(CONSENT_ANSWERED_EVENT, check);

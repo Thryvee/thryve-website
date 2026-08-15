@@ -4,7 +4,15 @@ import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
 
-export default function AboutCTA() {
+interface AboutCTAProps {
+  secondaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+}
+
+export default function AboutCTA({
+  secondaryCtaLabel = "See Case Studies",
+  secondaryCtaHref = "/case-studies",
+}: AboutCTAProps) {
   const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -76,10 +84,10 @@ export default function AboutCTA() {
             Contact Us
           </button>
           <button
-            onClick={() => router.push("/case-studies")}
+            onClick={() => router.push(secondaryCtaHref)}
             className="rounded-full border border-black/15 bg-white px-6 py-2.5 text-sm font-semibold text-black transition-transform duration-300 hover:scale-105"
           >
-            See Case Studies
+            {secondaryCtaLabel}
           </button>
         </motion.div>
       </motion.div>

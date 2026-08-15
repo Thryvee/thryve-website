@@ -1,15 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 
 export const CONSENT_ANSWERED_EVENT = "thryve-cookie-consent-answered";
+export const CONSENT_STORAGE_KEY = "thryve-cookie-consent";
 
 export default function CookieConsent() {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const alreadyAnswered = localStorage.getItem(CONSENT_STORAGE_KEY);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage is only readable client-side, so this can't be a lazy useState initializer without risking a hydration mismatch
+    setVisible(!alreadyAnswered);
+    if (alreadyAnswered) {
+      window.dispatchEvent(new Event(CONSENT_ANSWERED_EVENT));
+    }
+  }, []);
 
   const respond = () => {
+    localStorage.setItem(CONSENT_STORAGE_KEY, "answered");
     setVisible(false);
     window.dispatchEvent(new Event(CONSENT_ANSWERED_EVENT));
   };
