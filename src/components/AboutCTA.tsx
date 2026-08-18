@@ -10,8 +10,8 @@ interface AboutCTAProps {
 }
 
 export default function AboutCTA({
-  secondaryCtaLabel = "See Case Studies",
-  secondaryCtaHref = "/case-studies",
+  secondaryCtaLabel = "See Services",
+  secondaryCtaHref = "/services",
 }: AboutCTAProps) {
   const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);

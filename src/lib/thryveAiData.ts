@@ -38,7 +38,7 @@ export const aiKnowledgeBase: AiEntry[] = [
       "Acquisition is about bringing in buyers who actually convert, not just traffic. We run paid, organic, and creative-led channels together instead of siloed.",
       "In practice this means a weekly creative testing cadence, dedicated retargeting funnels so cold and warm traffic don't compete for the same budget, and channel diversification once one account gets saturated. Juniper & Oat cut CAC 58% this way, and Solstice Eyewear launched at an $11 CAC with zero existing customer data.",
     ],
-    actions: [{ type: "link", label: "See the Juniper & Oat case study", href: "/case-studies" }],
+    actions: [{ type: "link", label: "Book a call to hear more", href: "/contact" }],
     followUps: ["service-conversion", "results-overview", "book-call"],
   },
   {
@@ -49,7 +49,7 @@ export const aiKnowledgeBase: AiEntry[] = [
       "Conversion work is landing pages, funnels, and on-page experience built around one job — moving someone from interested to purchased.",
       "A lot of brands assume a conversion problem is a traffic problem. Northfield Supply Co. was pulling 80K sessions a month but converting at just 1.1% — the fix was almost entirely on-page: social proof, a simpler mobile checkout, and a smarter upsell flow. Conversion rate rose 142% in six weeks with zero new ad spend.",
     ],
-    actions: [{ type: "link", label: "See the Northfield case study", href: "/case-studies" }],
+    actions: [{ type: "link", label: "Book a call to hear more", href: "/contact" }],
     followUps: ["service-retention", "results-overview", "book-call"],
   },
   {
@@ -60,7 +60,7 @@ export const aiKnowledgeBase: AiEntry[] = [
       "Retention is lifecycle marketing and CRM systems that turn one-time buyers into repeat customers — post-purchase email sequences, win-back flows, loyalty tiers, and reorder timing based on actual usage data instead of generic calendar intervals.",
       "Birchwell Labs was losing 40% of first-time buyers before a second order. A proper lifecycle system lifted repeat purchase rate 67% and more than doubled 6-month LTV in a single quarter.",
     ],
-    actions: [{ type: "link", label: "See the Birchwell Labs case study", href: "/case-studies" }],
+    actions: [{ type: "link", label: "Book a call to hear more", href: "/contact" }],
     followUps: ["service-scaling", "results-overview", "book-call"],
   },
   {
@@ -71,7 +71,7 @@ export const aiKnowledgeBase: AiEntry[] = [
       "Scaling is the systematic, profitable growth of what's already working — not just increasing ad budget and hoping. We diagnose whether an account is actually saturated, build out new channels in parallel with their own attribution, and only scale spend once a channel proves stable for a set number of consecutive days.",
       "Harlow & Fern had tried scaling twice before and broken even both times. The third attempt, run our way, grew monthly revenue from $180K to over $500K in five months while holding net margin at 12%.",
     ],
-    actions: [{ type: "link", label: "See the Harlow & Fern case study", href: "/case-studies" }],
+    actions: [{ type: "link", label: "Book a call to hear more", href: "/contact" }],
     followUps: ["results-overview", "pricing", "book-call"],
   },
 
@@ -82,9 +82,9 @@ export const aiKnowledgeBase: AiEntry[] = [
     chipLabel: "Show me results",
     response: [
       "We've generated $4.2M for 128 brands with a 94% client retention rate — and every engagement is tied to a real number, not vanity metrics.",
-      "A few highlights: Juniper & Oat cut blended CAC 58%, Northfield Supply Co. lifted conversion rate 142% in six weeks, Birchwell Labs grew repeat purchase rate 67%, and Harlow & Fern scaled monthly revenue 2.8x while holding margin. Full breakdowns — the challenge, what we did, and the trajectory chart — are on the case studies page.",
+      "A few highlights: Juniper & Oat cut blended CAC 58%, Northfield Supply Co. lifted conversion rate 142% in six weeks, Birchwell Labs grew repeat purchase rate 67%, and Harlow & Fern scaled monthly revenue 2.8x while holding margin. Happy to walk through the full breakdowns on a call.",
     ],
-    actions: [{ type: "link", label: "Browse all case studies", href: "/case-studies" }],
+    actions: [{ type: "link", label: "Book a call", href: "/contact" }],
     followUps: ["services-overview", "process-overview", "book-call"],
   },
 

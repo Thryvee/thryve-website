@@ -10,7 +10,6 @@ import { useNavTheme } from "./NavThemeContext";
 const navLinks = [
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
-  { label: "Case Studies", href: "/case-studies" },
 ] as const;
 
 export default function Navbar() {

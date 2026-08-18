@@ -12,7 +12,7 @@ import CountUp from "./CountUp";
 import CaseStudyTrendChart from "./CaseStudyTrendChart";
 import CaseStudyTimeline from "./CaseStudyTimeline";
 import type { ServicePage } from "@/lib/servicesData";
-import { caseStudies, categoryAccent, categoryGlow } from "@/lib/caseStudiesData";
+import { categoryAccent, categoryGlow } from "@/lib/caseStudiesData";
 
 const fadeUp = {
   initial: { opacity: 0, y: 28 },
@@ -121,10 +121,10 @@ function ServiceHero({ service, accent, glow }: { service: ServicePage; accent: 
           Book a free audit call
         </button>
         <Link
-          href="/case-studies"
+          href="/services"
           className="rounded-full border border-white/20 px-7 py-3.5 text-center text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.03] hover:bg-white/5"
         >
-          See case studies
+          See all services
         </Link>
       </motion.div>
     </div>
@@ -136,7 +136,6 @@ export default function ServicePageTemplate({ service }: { service: ServicePage 
   const [openFaq, setOpenFaq] = useState(0);
   const accent = categoryAccent[service.category];
   const glow = categoryGlow[service.category];
-  const relatedCaseStudies = caseStudies.filter((c) => c.category === service.category).slice(0, 2);
 
   return (
     <main className="min-h-screen w-full bg-white">
@@ -213,31 +212,6 @@ export default function ServicePageTemplate({ service }: { service: ServicePage 
               ))}
             </div>
           </motion.div>
-
-          {/* Related case studies */}
-          {relatedCaseStudies.length > 0 && (
-            <motion.div {...fadeUp} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} className="mt-20">
-              <h2 className="font-display text-2xl text-black md:text-3xl">Real results, same category</h2>
-              <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
-                {relatedCaseStudies.map((cs) => (
-                  <Link
-                    key={cs.slug}
-                    href="/case-studies"
-                    className="group rounded-3xl p-6 transition-colors duration-300"
-                    style={{ background: `${accent}0d` }}
-                  >
-                    <div className="font-display text-3xl text-black">{cs.headlineMetric.value}</div>
-                    <p className="mt-1 text-xs text-black/40">{cs.headlineMetric.label}</p>
-                    <h3 className="font-display mt-4 text-lg text-black">{cs.brand}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-black/55">{cs.summary}</p>
-                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-black/70 transition-transform duration-300 group-hover:translate-x-1">
-                      Read case study →
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
-          )}
 
         </div>
 

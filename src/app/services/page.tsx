@@ -156,7 +156,7 @@ export default function ServicesHubPage() {
           </div>
         </section>
 
-        <AboutCTA />
+        <AboutCTA secondaryCtaLabel="About Us" secondaryCtaHref="/about" />
 
         <Footer />
 
